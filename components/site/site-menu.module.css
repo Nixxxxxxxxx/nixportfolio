@@ -1,0 +1,215 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rootOpen {
+  z-index: 60;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.overlayOpen {
+  pointer-events: auto;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 220ms var(--ease-standard);
+}
+
+.overlayOpen .scrim {
+  opacity: 1;
+}
+
+.panel {
+  position: absolute;
+  z-index: 1;
+  width: min(672px, calc(100vw - 80px));
+  display: grid;
+  grid-template-columns: repeat(3, 208px);
+  gap: 24px;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    visibility 0s linear 220ms,
+    opacity 220ms var(--ease-standard),
+    transform 220ms var(--ease-standard);
+}
+
+.panelAbove {
+  bottom: calc(100% + 32px);
+}
+
+.panelBelow {
+  top: calc(100% + 24px);
+}
+
+.panelAlignCenter {
+  left: 50%;
+  transform: translate(-50%, 8px);
+}
+
+.panelAlignEnd {
+  right: 0;
+  transform: translateY(8px);
+}
+
+.panelOpen {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.panelOpen.panelAlignCenter {
+  transform: translate(-50%, 0);
+}
+
+.panelOpen.panelAlignEnd {
+  transform: translateY(0);
+}
+
+.menuCard {
+  min-height: 263px;
+  padding: 24px 20px;
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
+  transition:
+    background-color 220ms var(--ease-standard),
+    box-shadow 220ms var(--ease-standard);
+}
+
+.menuCard:hover {
+  background: #fcfcfc;
+  box-shadow: 0 28px 92px rgba(0, 0, 0, 0.14);
+}
+
+.menuCard:focus-visible {
+  outline: 2px solid rgba(0, 115, 236, 0.35);
+  outline-offset: 4px;
+}
+
+.menuCardVisual {
+  position: relative;
+  height: 163px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #f3f4f7;
+}
+
+.menuCardArt {
+  object-fit: cover;
+}
+
+.menuCardText {
+  display: grid;
+}
+
+.menuCardLabel {
+  margin: 0;
+  color: #000000;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+  text-align: center;
+}
+
+.menuButton {
+  min-height: 56px;
+  padding: 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: #f5f5f5;
+  color: #000000;
+  cursor: pointer;
+  transition:
+    background-color 220ms var(--ease-standard),
+    box-shadow 220ms var(--ease-standard),
+    color 220ms var(--ease-standard);
+}
+
+.menuButton:hover {
+  background: #efefef;
+  box-shadow: 0 10px 24px rgba(16, 18, 20, 0.06);
+}
+
+.menuButtonActive {
+  background: #ffffff;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
+}
+
+.menuButton:focus-visible {
+  outline: 2px solid rgba(0, 115, 236, 0.35);
+  outline-offset: 4px;
+}
+
+.menuIconWrap {
+  position: relative;
+  width: 32px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menuIcon,
+.menuCloseIcon {
+  display: block;
+  width: 32px;
+  height: 26px;
+}
+
+.menuCloseIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.menuLabel {
+  font-family: "Inter", var(--font-sans);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+@media (max-width: 1100px) {
+  .panel {
+    width: min(360px, calc(100vw - 64px));
+    grid-template-columns: 1fr;
+  }
+
+  .panelAlignCenter {
+    left: 50%;
+    right: auto;
+  }
+}
+
+@media (max-width: 820px) {
+  .panel {
+    width: min(360px, calc(100vw - 40px));
+  }
+}
