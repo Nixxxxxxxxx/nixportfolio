@@ -1,7 +1,7 @@
 "use client";
 
 import { FadeIn } from "@/components/animations/fade-in";
-import { SiteMenu } from "@/components/site/site-menu";
+import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
 import { profile } from "@/content/profile";
 
 import styles from "./page.module.css";
@@ -82,10 +82,6 @@ export default function HomePage() {
               <p className={styles.role}>{profile.subtitle}</p>
             </FadeIn>
 
-            <FadeIn className={styles.menuSlot} delay={0.06} animatePosition={false}>
-              <SiteMenu placement="above" align="center" />
-            </FadeIn>
-
             <FadeIn className={styles.socials} delay={0.12} animatePosition={false}>
               <a
                 className={`${styles.socialItem} ${styles.socialTelegram}`}
@@ -116,6 +112,10 @@ export default function HomePage() {
               </a>
             </FadeIn>
           </footer>
+
+          <FadeIn delay={0.18} duration={0.42} animatePosition={false}>
+            <BottomMenuDock />
+          </FadeIn>
         </div>
       </div>
     </main>

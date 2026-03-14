@@ -49,117 +49,16 @@
   border-radius: 24px;
 }
 
-.menuOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.menuOverlayOpen {
-  pointer-events: auto;
-}
-
-.menuScrim {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  padding: 0;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity 240ms var(--ease-standard);
-}
-
-.menuOverlayOpen .menuScrim {
-  opacity: 1;
-}
-
-.menuPanel {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 32px);
-  width: min(672px, calc(100vw - 80px));
-  display: grid;
-  grid-template-columns: repeat(3, 208px);
-  gap: 24px;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, 12px);
-  transition:
-    visibility 0s linear 260ms,
-    opacity 260ms var(--ease-standard),
-    transform 260ms var(--ease-standard);
-}
-
-.menuPanelOpen {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, 0);
-  transition-delay: 0s;
-}
-
-.menuCard {
-  min-height: 263px;
-  padding: 24px 20px;
-  display: grid;
-  gap: 24px;
-  align-content: start;
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
-  transition:
-    box-shadow 220ms var(--ease-standard),
-    opacity 220ms var(--ease-standard);
-}
-
-.menuCard:hover {
-  opacity: 0.98;
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.14);
-}
-
-.menuCard:focus-visible {
-  outline: 2px solid rgba(0, 115, 236, 0.35);
-  outline-offset: 4px;
-}
-
-.menuCardVisual {
-  position: relative;
-  height: 163px;
-  overflow: hidden;
-  border-radius: 20px;
-  background: #f3f4f7;
-}
-
-.menuCardArt {
-  object-fit: cover;
-}
-
-.menuCardText {
-  display: grid;
-}
-
-.menuCardLabel {
-  margin: 0;
-  color: #000000;
-  font-size: 18px;
-  line-height: 1.25;
-  letter-spacing: 0.01em;
-  font-weight: 600;
-  text-align: center;
-}
-
 .footer {
   position: absolute;
   top: 728px;
   left: 120px;
   width: 1281px;
   height: 56px;
-  display: grid;
-  grid-template-columns: 321px 1fr 321px;
+  display: flex;
   align-items: end;
+  justify-content: space-between;
+  gap: 32px;
 }
 
 .identity {
@@ -185,81 +84,6 @@
   line-height: 1;
   letter-spacing: 0.03em;
   font-weight: 300;
-}
-
-.menuSlot {
-  position: relative;
-  display: flex;
-  align-items: end;
-  justify-content: center;
-  width: max-content;
-  margin: 0 auto;
-  isolation: isolate;
-}
-
-.menuSlotRaised {
-  z-index: 6;
-}
-
-.menuPill {
-  min-height: 56px;
-  padding: 0 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 0;
-  border-radius: 12px;
-  background: #f5f5f5;
-  color: #000000;
-  cursor: pointer;
-  transition:
-    background-color 220ms var(--ease-standard),
-    box-shadow 220ms var(--ease-standard),
-    opacity 220ms var(--ease-standard);
-}
-
-.menuPill:hover {
-  opacity: 0.92;
-}
-
-.menuPillActive {
-  background: #ffffff;
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
-}
-
-.menuPill:focus-visible {
-  outline: 2px solid rgba(0, 115, 236, 0.35);
-  outline-offset: 4px;
-}
-
-.menuIconWrap {
-  position: relative;
-  width: 32px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.menuIcon,
-.menuCloseIcon {
-  display: block;
-  width: 32px;
-  height: 26px;
-}
-
-.menuCloseIcon {
-  width: 24px;
-  height: 24px;
-}
-
-.menuLabel {
-  font-family: "Inter", var(--font-sans);
-  font-size: 18px;
-  line-height: 28px;
-  font-weight: 400;
 }
 
 .socials {
@@ -329,12 +153,6 @@
     left: max(40px, calc(50% - 640.5px));
     width: min(calc(100% - 80px), 1281px);
   }
-
-  .menuPanel {
-    left: 50%;
-    width: min(calc(100% - 80px), 672px);
-    grid-template-columns: repeat(3, minmax(0, 208px));
-  }
 }
 
 @media (max-width: 1100px) {
@@ -362,28 +180,13 @@
     transform: translate(-50%, -50%);
   }
 
-  .menuOverlay {
-    position: fixed;
-    inset: 0;
-  }
-
-  .menuPanel {
-    bottom: calc(100% + 24px);
-    width: min(360px, calc(100vw - 64px));
-    grid-template-columns: 1fr;
-  }
-
-  .menuCard {
-    width: 100%;
-  }
-
   .footer {
     position: relative;
     top: auto;
     left: auto;
     width: 100%;
     height: auto;
-    grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+    display: flex;
   }
 
   .identity,
@@ -408,24 +211,13 @@
   }
 
   .footer {
+    display: grid;
     grid-template-columns: 1fr;
     gap: 18px;
     justify-items: start;
   }
 
-  .menuSlot {
-    order: -1;
-  }
-
   .socials {
     justify-content: flex-start;
-  }
-
-  .menuPanel {
-    width: min(360px, calc(100vw - 40px));
-  }
-
-  .menuCard {
-    width: 100%;
   }
 }

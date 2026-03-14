@@ -1,85 +1,239 @@
 import Image from "next/image";
 
 import { FadeIn } from "@/components/animations/fade-in";
-import { SiteHeader } from "@/components/site/site-header";
-import { profile } from "@/content/profile";
+import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
+import type { ResumeBadge, ResumeBulletLine } from "@/content/resume";
+import { resumeData } from "@/content/resume";
 
 import styles from "./page.module.css";
+
+function MapPinIcon() {
+  return (
+    <svg className={styles.mapPinIcon} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 22C12 22 19 15.5 19 10A7 7 0 1 0 5 10C5 15.5 12 22 12 22Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="10" r="2.7" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg className={styles.briefcaseIcon} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M9 7V5.5C9 4.67 9.67 4 10.5 4H13.5C14.33 4 15 4.67 15 5.5V7"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 9.5C4 8.67 4.67 8 5.5 8H18.5C19.33 8 20 8.67 20 9.5V17.5C20 18.33 19.33 19 18.5 19H5.5C4.67 19 4 18.33 4 17.5V9.5Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
+    </svg>
+  );
+}
+
+function renderBulletLine(line: ResumeBulletLine) {
+  return line.map((part, index) =>
+    part.strong ? (
+      <strong key={`${part.text}-${index}`}>{part.text}</strong>
+    ) : (
+      <span key={`${part.text}-${index}`}>{part.text}</span>
+    )
+  );
+}
+
+function ExperienceBadge({ badge }: { badge: ResumeBadge }) {
+  if (badge.type === "image") {
+    return (
+      <div className={styles.companyBadge}>
+        <Image
+          src={badge.src}
+          alt={badge.alt}
+          fill
+          sizes="61px"
+          className={styles.companyBadgeImage}
+        />
+      </div>
+    );
+  }
+
+  if (badge.type === "magnit") {
+    return (
+      <div className={`${styles.companyBadge} ${styles.magnitBadge}`}>
+        <Image
+          src="/images/resume/magnit-badge.svg"
+          alt="Magnit Tech badge"
+          width={51}
+          height={18}
+          className={styles.magnitBadgeImage}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`${styles.companyBadge} ${
+        badge.variant === "goodgoose" ? styles.goodgooseBadge : styles.feedomBadge
+      }`}
+    >
+      <span>{badge.text}</span>
+    </div>
+  );
+}
 
 export default function ResumePage() {
   return (
     <main className={styles.page}>
       <div className={styles.canvas}>
-        <SiteHeader current="resume" />
+        <section className={styles.layout}>
+          <FadeIn className={styles.contactColumn} animatePosition={false}>
+            <aside className={styles.contactCard}>
+              <div className={styles.contactTop}>
+                <div className={styles.avatarWrap}>
+                  <Image
+                    src="/images/resume/avatar.png"
+                    alt="Портрет Виталия Унаняна"
+                    fill
+                    sizes="80px"
+                    className={styles.avatar}
+                  />
+                </div>
 
-        <section className={styles.hero}>
-          <FadeIn className={styles.summaryCard}>
-            <div className={styles.identity}>
-              <div className={styles.avatarWrap}>
-                <Image
-                  src="/images/profile/portrait-side.jpg"
-                  alt="Портрет Виталия Унаняна"
-                  fill
-                  sizes="96px"
-                  className={styles.avatar}
-                />
-              </div>
-
-              <div className={styles.identityText}>
-                <p className={styles.eyebrow}>Резюме</p>
-                <h1 className={styles.name}>{profile.name}</h1>
-                <p className={styles.role}>{profile.role}</p>
-              </div>
-            </div>
-
-            <p className={styles.summary}>{profile.summary}</p>
-
-            <div className={styles.contacts}>
-              <a href={`mailto:${profile.contacts.email}`}>{profile.contacts.email}</a>
-              <a href={profile.contacts.telegramUrl} target="_blank" rel="noreferrer">
-                {profile.contacts.telegramLabel}
-              </a>
-              <span>{profile.contacts.phone}</span>
-            </div>
-          </FadeIn>
-        </section>
-
-        <section className={styles.timelineSection}>
-          <FadeIn className={styles.sectionIntro}>
-            <p className={styles.sectionLabel}>Опыт</p>
-            <h2 className={styles.sectionTitle}>Последние роли и то, за что я отвечал.</h2>
-          </FadeIn>
-
-          <div className={styles.timeline}>
-            {profile.experience.map((item, index) => (
-              <FadeIn key={item.company} className={styles.timelineCard} delay={0.08 * (index + 1)}>
-                <div className={styles.timelineHeader}>
-                  <div>
-                    <h3 className={styles.company}>{item.company}</h3>
-                    <p className={styles.position}>{item.role}</p>
+                <div className={styles.contactList}>
+                  <div className={styles.contactRow}>
+                    <p className={styles.contactLabel}>E-mail</p>
+                    <a className={styles.contactValueLink} href={`mailto:${resumeData.contacts.email}`}>
+                      {resumeData.contacts.email}
+                    </a>
                   </div>
-                  <p className={styles.period}>{item.period}</p>
+
+                  <div className={styles.contactRow}>
+                    <p className={styles.contactLabel}>Телефон</p>
+                    <p className={styles.contactValue}>{resumeData.contacts.phone}</p>
+                  </div>
+
+                  <div className={styles.contactRow}>
+                    <p className={styles.contactLabel}>Telegram</p>
+                    <p className={styles.contactValue}>{resumeData.contacts.telegram}</p>
+                  </div>
+
+                  <div className={styles.separator} />
+
+                  <div className={styles.contactRow}>
+                    <p className={styles.contactLabel}>Telegram канал</p>
+                    <p className={styles.contactValue}>{resumeData.contacts.channel}</p>
+                  </div>
                 </div>
+              </div>
 
-                <div className={styles.tagRow}>
-                  {item.tags.map((tag) => (
-                    <span key={tag} className={styles.tag}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <div className={styles.contactBottom}>
+                <p className={styles.contactLabel}>Написать в telegram</p>
+                <a
+                  className={styles.contactValueLink}
+                  href={resumeData.contacts.directTelegramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {resumeData.contacts.directTelegramLabel}
+                </a>
+              </div>
+            </aside>
+          </FadeIn>
 
-                <p className={styles.description}>{item.description}</p>
+          <div className={styles.mainColumn}>
+            <FadeIn className={styles.nameBlock} animatePosition={false}>
+              <h1 className={styles.name}>
+                <span>{resumeData.fullName}</span>
+                <span className={styles.role}>{resumeData.role}</span>
+              </h1>
+              <p className={styles.location}>
+                <MapPinIcon />
+                <span>{resumeData.location}</span>
+              </p>
+            </FadeIn>
 
-                <ul className={styles.highlights}>
-                  {item.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
-                  ))}
-                </ul>
-              </FadeIn>
-            ))}
+            <FadeIn className={styles.introCard} delay={0.04} animatePosition={false}>
+              <p className={styles.introText}>{resumeData.intro}</p>
+            </FadeIn>
+
+            <section className={styles.experienceStack}>
+              {resumeData.experience.map((work, index) => (
+                <FadeIn
+                  key={work.company}
+                  className={styles.workReveal}
+                  delay={0.06 * (index + 1)}
+                  animatePosition={false}
+                >
+                  <article className={styles.workItem}>
+                    <header className={styles.workHeader}>
+                      <div className={styles.workHeaderMain}>
+                        <h2 className={styles.workCompany}>{work.company}</h2>
+                        <p className={styles.workRole}>{work.role}</p>
+                        <p className={styles.period}>
+                          <BriefcaseIcon />
+                          <span>{work.period}</span>
+                        </p>
+                        <div className={styles.tags}>
+                          {work.tags.map((tag) => (
+                            <span key={`${work.company}-${tag}`} className={styles.tag}>
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <ExperienceBadge badge={work.badge} />
+                    </header>
+
+                    {work.projects ? (
+                      <div className={styles.projectStack}>
+                        {work.projects.map((project) => (
+                          <section key={`${work.company}-${project.title}`} className={styles.projectBlock}>
+                            <h3 className={styles.projectTitle}>{project.title}</h3>
+                            <ul className={styles.bulletList}>
+                              {project.bullets.map((line, lineIndex) => (
+                                <li key={`${project.title}-${lineIndex}`} className={styles.bulletItem}>
+                                  {renderBulletLine(line)}
+                                </li>
+                              ))}
+                            </ul>
+                          </section>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    {work.intro ? <p className={styles.workIntro}>{work.intro}</p> : null}
+
+                    {work.bullets ? (
+                      <ul className={styles.bulletList}>
+                        {work.bullets.map((line, lineIndex) => (
+                          <li key={`${work.company}-line-${lineIndex}`} className={styles.bulletItem}>
+                            {renderBulletLine(line)}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </article>
+
+                  {index < resumeData.experience.length - 1 ? <div className={styles.divider} /> : null}
+                </FadeIn>
+              ))}
+            </section>
           </div>
         </section>
+
+        <FadeIn delay={0.16} duration={0.38} animatePosition={false}>
+          <BottomMenuDock />
+        </FadeIn>
       </div>
     </main>
   );

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
-import { SiteMenu } from "./site-menu";
+import { BottomMenuDock } from "./bottom-menu-dock";
 import styles from "./cases-shell.module.css";
 
 type CasesShellProps = {
@@ -13,10 +13,9 @@ type CasesShellProps = {
 };
 
 const contentVariants = {
-  initial: { opacity: 0, y: 4 },
+  initial: { opacity: 0 },
   animate: {
     opacity: 1,
-    y: 0,
     transition: {
       duration: 0.2,
       ease: [0.22, 1, 0.36, 1]
@@ -24,7 +23,6 @@ const contentVariants = {
   },
   exit: {
     opacity: 0,
-    y: 0,
     transition: {
       duration: 0.14,
       ease: [0.22, 1, 0.36, 1]
@@ -64,8 +62,6 @@ export function CasesShell({ children }: CasesShellProps) {
           <Link href={backHref} className={styles.backButton} aria-label="Назад">
             <BackArrowIcon />
           </Link>
-
-          <SiteMenu placement="below" align="end" />
         </div>
       </div>
 
@@ -81,6 +77,8 @@ export function CasesShell({ children }: CasesShellProps) {
           {children}
         </motion.div>
       </AnimatePresence>
+
+      <BottomMenuDock />
     </div>
   );
 }

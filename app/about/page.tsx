@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { FadeIn } from "@/components/animations/fade-in";
-import { SiteHeader } from "@/components/site/site-header";
+import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
 import { profile } from "@/content/profile";
 
 import styles from "./page.module.css";
@@ -10,8 +10,6 @@ export default function AboutPage() {
   return (
     <main className={styles.page}>
       <div className={styles.canvas}>
-        <SiteHeader current="about" />
-
         <section className={styles.hero}>
           <FadeIn className={styles.copy}>
             <p className={styles.eyebrow}>Обо мне</p>
@@ -86,6 +84,8 @@ export default function AboutPage() {
             </div>
           </FadeIn>
         </section>
+
+        <BottomMenuDock />
       </div>
     </main>
   );

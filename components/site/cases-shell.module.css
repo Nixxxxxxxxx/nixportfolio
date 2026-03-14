@@ -17,7 +17,7 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .topBar > * {
@@ -57,6 +57,7 @@
 
 .content {
   min-height: 100svh;
+  padding-bottom: 164px;
 }
 
 @media (max-width: 1100px) {
@@ -78,5 +79,9 @@
     width: 52px;
     height: 52px;
     border-radius: 14px;
+  }
+
+  .content {
+    padding-bottom: 132px;
   }
 }

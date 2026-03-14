@@ -1,211 +1,460 @@
 .page {
   min-height: 100svh;
-  background:
-    radial-gradient(circle at 16% 12%, rgba(0, 115, 236, 0.1), transparent 22%),
-    #ffffff;
+  background: #ffffff;
 }
 
 .canvas {
   width: min(100%, 1520px);
   margin: 0 auto;
-  padding: 0 32px 96px;
+  padding: 64px 120px 180px;
 }
 
-.hero,
-.timelineSection {
-  width: min(100%, 1280px);
-  margin: 72px auto 0;
-}
-
-.summaryCard,
-.timelineCard {
-  border: 1px solid rgba(16, 18, 20, 0.06);
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 18px 56px rgba(16, 18, 20, 0.06);
-  backdrop-filter: blur(18px);
-}
-
-.summaryCard {
-  padding: 36px;
-  border-radius: 36px;
+.layout {
   display: grid;
-  gap: 28px;
+  grid-template-columns: 217px 738px;
+  align-items: start;
+  column-gap: 108px;
 }
 
-.identity {
+.contactColumn {
+  width: 217px;
+}
+
+.contactCard {
+  min-height: 648px;
+  padding: 40px;
   display: flex;
-  align-items: center;
-  gap: 24px;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 16px;
+  background: #f5f5f5;
+}
+
+.contactTop {
+  display: grid;
+  gap: 26px;
 }
 
 .avatarWrap {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
   overflow: hidden;
-  border-radius: 28px;
-  flex-shrink: 0;
+  background: #ffffff;
 }
 
 .avatar {
   object-fit: cover;
 }
 
-.identityText {
+.contactList {
   display: grid;
-  gap: 6px;
+  gap: 12px;
 }
 
-.eyebrow,
-.sectionLabel,
-.period {
+.contactRow {
+  display: grid;
+  gap: 2px;
+}
+
+.separator {
+  height: 1px;
+  background: rgba(129, 129, 144, 0.3);
+  margin: 3px 0;
+}
+
+.contactLabel {
   margin: 0;
-  color: rgba(16, 18, 20, 0.54);
+  color: #818190;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
   font-family: "Inter", var(--font-sans);
+}
+
+.contactValue,
+.contactValueLink {
+  margin: 0;
+  color: #101214;
   font-size: 14px;
   line-height: 1.4;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 500;
+  font-family: "Inter", var(--font-sans);
+}
+
+.contactValueLink {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: opacity 220ms var(--ease-standard);
+}
+
+.contactValueLink:hover {
+  opacity: 0.74;
+}
+
+.contactValueLink:focus-visible {
+  outline: 2px solid rgba(0, 115, 236, 0.35);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.contactBottom {
+  display: grid;
+  gap: 2px;
+}
+
+.mainColumn {
+  width: min(100%, 738px);
+  display: grid;
+  gap: 24px;
+}
+
+.nameBlock {
+  width: fit-content;
 }
 
 .name {
   margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.name > span:first-child {
   color: #101214;
-  font-size: clamp(40px, 4vw, 62px);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-family: var(--font-display);
 }
 
-.role,
-.summary,
-.contacts a,
-.contacts span,
-.position,
-.description,
-.highlights li {
-  margin: 0;
-  color: rgba(16, 18, 20, 0.74);
-  font-family: "Inter", var(--font-sans);
-  font-size: 17px;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
+.role {
+  color: #101214;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 400;
+  font-family: var(--font-display);
 }
 
-.contacts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.contacts a,
-.contacts span,
-.tag {
-  min-height: 42px;
-  padding: 0 16px;
+.location {
+  margin: 8px 0 0;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: #f2f4f8;
+  gap: 7px;
+  color: #818190;
+  font-size: 22px;
+  line-height: 1.48;
+  font-weight: 300;
+  font-family: var(--font-display);
 }
 
-.contacts a:hover {
-  opacity: 0.82;
+.mapPinIcon {
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
 }
 
-.contacts a:focus-visible {
-  outline: 2px solid rgba(0, 115, 236, 0.35);
-  outline-offset: 4px;
+.introCard {
+  padding: 27px 32px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, rgba(240, 221, 255, 0.6) 0%, rgba(211, 229, 255, 0.6) 100%);
 }
 
-.sectionIntro {
-  max-width: 720px;
-  display: grid;
-  gap: 14px;
-}
-
-.sectionTitle {
+.introText {
   margin: 0;
   color: #101214;
-  font-size: clamp(30px, 3vw, 46px);
-  line-height: 1.06;
-  letter-spacing: -0.03em;
-  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 400;
+  font-family: "Inter", var(--font-sans);
 }
 
-.timeline {
-  margin-top: 24px;
+.experienceStack {
+  display: grid;
+  gap: 32px;
+}
+
+.workReveal {
+  display: grid;
+  gap: 32px;
+}
+
+.workItem {
   display: grid;
   gap: 16px;
 }
 
-.timelineCard {
-  padding: 30px 32px 32px;
-  border-radius: 28px;
-  display: grid;
-  gap: 18px;
-}
-
-.timelineHeader {
+.workHeader {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
 }
 
-.company {
+.workHeaderMain {
+  display: grid;
+  gap: 2px;
+}
+
+.workCompany {
   margin: 0;
   color: #101214;
-  font-size: 28px;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 600;
+  font-family: "Inter", var(--font-sans);
+}
+
+.workRole {
+  margin: 0;
+  color: #101214;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 400;
+  font-family: "Inter", var(--font-sans);
+}
+
+.period {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #717180;
+  font-size: 16px;
+  line-height: 1.4;
   font-weight: 500;
+  font-family: "Inter", var(--font-sans);
 }
 
-.position {
-  margin-top: 8px;
+.briefcaseIcon {
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
 }
 
-.tagRow {
+.tags {
+  padding: 10px 0 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-}
-
-.tag {
-  color: #101214;
-  font-family: "Inter", var(--font-sans);
-  font-size: 15px;
-  line-height: 1.2;
-}
-
-.highlights {
-  margin: 0;
-  padding-left: 20px;
-  display: grid;
   gap: 8px;
 }
 
-@media (max-width: 820px) {
+.tag {
+  min-height: 33px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  background: #ebebee;
+  color: #101214;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
+  font-family: "Inter", var(--font-sans);
+}
+
+.companyBadge {
+  position: relative;
+  width: 61px;
+  height: 61px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.companyBadgeImage {
+  object-fit: cover;
+}
+
+.feedomBadge {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.feedomBadge span {
+  color: #33383d;
+  font-size: 31px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.goodgooseBadge {
+  background: #161616;
+  backdrop-filter: blur(10px);
+}
+
+.goodgooseBadge span {
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 700;
+  font-family: "Jura", "Inter", var(--font-sans);
+}
+
+.magnitBadge {
+  background: #000000;
+}
+
+.magnitBadgeImage {
+  width: 51px;
+  height: auto;
+}
+
+.projectStack {
+  display: grid;
+  gap: 12px;
+}
+
+.projectBlock {
+  display: grid;
+  gap: 12px;
+}
+
+.projectTitle,
+.workIntro {
+  margin: 0;
+  color: #101214;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 400;
+  font-family: "Inter", var(--font-sans);
+}
+
+.bulletList {
+  margin: 0;
+  padding-left: 27px;
+  display: grid;
+  gap: 6px;
+}
+
+.bulletItem {
+  color: #101214;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 400;
+  font-family: "Inter", var(--font-sans);
+}
+
+.bulletItem strong {
+  font-weight: 600;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(129, 129, 144, 0.3);
+}
+
+@media (max-width: 1440px) {
   .canvas {
-    padding: 0 16px 56px;
+    padding: 64px 40px 172px;
   }
 
-  .hero,
-  .timelineSection {
-    margin-top: 32px;
+  .layout {
+    grid-template-columns: 217px minmax(0, 1fr);
+    column-gap: 56px;
+  }
+}
+
+@media (max-width: 1140px) {
+  .canvas {
+    padding: 36px 24px 160px;
   }
 
-  .summaryCard,
-  .timelineCard {
-    padding: 24px 20px;
-    border-radius: 24px;
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 
-  .identity,
-  .timelineHeader {
-    flex-direction: column;
-    align-items: flex-start;
+  .contactColumn {
+    width: 100%;
+  }
+
+  .contactCard {
+    min-height: auto;
+    padding: 28px;
+    gap: 24px;
+  }
+
+  .mainColumn {
+    width: 100%;
+    max-width: 738px;
+  }
+}
+
+@media (max-width: 760px) {
+  .canvas {
+    padding: 24px 16px 144px;
+  }
+
+  .name > span:first-child {
+    font-size: 30px;
+  }
+
+  .role {
+    font-size: 22px;
+  }
+
+  .location {
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .mapPinIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .introCard {
+    padding: 20px 18px;
+  }
+
+  .introText,
+  .workRole,
+  .projectTitle,
+  .workIntro,
+  .bulletItem {
+    font-size: 16px;
+  }
+
+  .workHeader {
+    gap: 12px;
+  }
+
+  .workCompany {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .period {
+    font-size: 14px;
+  }
+
+  .briefcaseIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tag {
+    min-height: 30px;
+    padding: 4px 10px;
+    font-size: 14px;
+  }
+
+  .companyBadge {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+
+  .feedomBadge span {
+    font-size: 24px;
+  }
+
+  .goodgooseBadge span {
+    font-size: 20px;
   }
 }

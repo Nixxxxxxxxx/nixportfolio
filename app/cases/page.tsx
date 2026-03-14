@@ -42,30 +42,13 @@ export default function CasesPage() {
                     <p className={styles.caseSummary}>{study.indexCard.summary}</p>
                   </div>
 
-                  <div className={styles.hoverCard} aria-hidden="true">
-                    <p className={styles.hoverEyebrow}>{study.indexCard.eyebrow}</p>
-                    <h2 className={styles.hoverTitle}>{study.indexCard.title}</h2>
-
-                    <div className={styles.hoverTags}>
-                      {study.indexCard.tags.map((tag) => (
-                        <span key={tag} className={styles.hoverTag}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className={styles.hoverMetric}>
-                      <span className={styles.hoverMetricValue}>
-                        {study.indexCard.highlightMetric}
-                      </span>
-                      <span className={styles.hoverMetricLabel}>
-                        {study.indexCard.highlightLabel}
-                      </span>
-                    </div>
-
-                    <span className={styles.hoverCta}>
-                      {study.indexCard.ctaLabel}
-                    </span>
+                  <div className={styles.impactMetrics}>
+                    {study.results.metrics.map((metric) => (
+                      <div key={metric.label} className={styles.impactMetric}>
+                        <span className={styles.impactMetricValue}>{metric.value}</span>
+                        <span className={styles.impactMetricLabel}>{metric.label}</span>
+                      </div>
+                    ))}
                   </div>
                 </Link>
               </FadeIn>
