@@ -59,7 +59,8 @@ export default function HomePage() {
 
             <FadeIn
               className={styles.videoStage}
-              delay={0.04}
+              delay={0.16}
+              duration={0.38}
               animatePosition={false}
             >
               <div className={styles.videoShell} aria-hidden="true">
@@ -77,12 +78,12 @@ export default function HomePage() {
           </section>
 
           <footer className={styles.footer}>
-            <FadeIn className={styles.identity} animatePosition={false}>
+            <FadeIn className={styles.identity} delay={0.24} duration={0.34} animatePosition={false}>
               <p className={styles.name}>{profile.name}</p>
               <p className={styles.role}>{profile.subtitle}</p>
             </FadeIn>
 
-            <FadeIn className={styles.socials} delay={0.12} animatePosition={false}>
+            <FadeIn className={styles.socials} delay={0.32} duration={0.34} animatePosition={false}>
               <a
                 className={`${styles.socialItem} ${styles.socialTelegram}`}
                 href={profile.contacts.telegramUrl}
@@ -113,7 +114,7 @@ export default function HomePage() {
             </FadeIn>
           </footer>
 
-          <FadeIn delay={0.18} duration={0.42} animatePosition={false}>
+          <FadeIn delay={0.4} duration={0.36} animatePosition={false}>
             <BottomMenuDock />
           </FadeIn>
         </div>

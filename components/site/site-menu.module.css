@@ -28,7 +28,7 @@
   background: rgba(0, 0, 0, 0.3);
   opacity: 0;
   cursor: pointer;
-  transition: opacity 220ms var(--ease-standard);
+  transition: opacity 340ms var(--ease-standard);
 }
 
 .overlayOpen .scrim {
@@ -46,13 +46,13 @@
   opacity: 0;
   pointer-events: none;
   transition:
-    visibility 0s linear 220ms,
-    opacity 220ms var(--ease-standard),
-    transform 220ms var(--ease-standard);
+    visibility 0s linear 360ms,
+    opacity 360ms var(--ease-standard),
+    transform 360ms var(--ease-standard);
 }
 
 .panelAboveCenter {
-  transform: translate(-50%, calc(-100% + 8px));
+  transform: translate(-50%, calc(-100% + 6px));
 }
 
 .panelOpen.panelAboveCenter {
@@ -60,7 +60,7 @@
 }
 
 .panelBelowCenter {
-  transform: translate(-50%, 8px);
+  transform: translate(-50%, 6px);
 }
 
 .panelOpen.panelBelowCenter {
@@ -68,7 +68,7 @@
 }
 
 .panelAboveEnd {
-  transform: translateY(calc(-100% + 8px));
+  transform: translateY(calc(-100% + 6px));
 }
 
 .panelOpen.panelAboveEnd {
@@ -76,7 +76,7 @@
 }
 
 .panelBelowEnd {
-  transform: translateY(8px);
+  transform: translateY(6px);
 }
 
 .panelOpen {
@@ -100,8 +100,8 @@
   background: #ffffff;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
   transition:
-    background-color 220ms var(--ease-standard),
-    box-shadow 220ms var(--ease-standard);
+    background-color 320ms var(--ease-standard),
+    box-shadow 320ms var(--ease-standard);
 }
 
 .menuCard:hover {
@@ -153,9 +153,9 @@
   color: #000000;
   cursor: pointer;
   transition:
-    background-color 220ms var(--ease-standard),
-    box-shadow 220ms var(--ease-standard),
-    color 220ms var(--ease-standard);
+    background-color 320ms var(--ease-standard),
+    box-shadow 320ms var(--ease-standard),
+    color 320ms var(--ease-standard);
 }
 
 .menuButton:hover {

@@ -87,6 +87,7 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
+  word-break: break-word;
   transition: opacity 220ms var(--ease-standard);
 }
 
@@ -107,12 +108,12 @@
 
 .mainColumn {
   width: min(100%, 738px);
-  display: grid;
-  gap: 24px;
+  min-width: 0;
 }
 
 .nameBlock {
-  width: fit-content;
+  width: 267px;
+  max-width: 100%;
 }
 
 .name {
@@ -157,7 +158,11 @@
 }
 
 .introCard {
+  margin-top: 24px;
+  min-height: 179px;
   padding: 27px 32px;
+  display: flex;
+  align-items: center;
   border-radius: 16px;
   background: linear-gradient(90deg, rgba(240, 221, 255, 0.6) 0%, rgba(211, 229, 255, 0.6) 100%);
 }
@@ -172,6 +177,7 @@
 }
 
 .experienceStack {
+  margin-top: 42px;
   display: grid;
   gap: 32px;
 }
@@ -194,6 +200,7 @@
 }
 
 .workHeaderMain {
+  min-width: 0;
   display: grid;
   gap: 2px;
 }
@@ -306,7 +313,7 @@
 
 .projectStack {
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 
 .projectBlock {
@@ -328,7 +335,7 @@
   margin: 0;
   padding-left: 27px;
   display: grid;
-  gap: 6px;
+  gap: 5px;
 }
 
 .bulletItem {
@@ -383,6 +390,14 @@
     width: 100%;
     max-width: 738px;
   }
+
+  .introCard {
+    margin-top: 20px;
+  }
+
+  .experienceStack {
+    margin-top: 32px;
+  }
 }
 
 @media (max-width: 760px) {
@@ -409,7 +424,13 @@
   }
 
   .introCard {
+    margin-top: 16px;
     padding: 20px 18px;
+    min-height: 0;
+  }
+
+  .experienceStack {
+    margin-top: 24px;
   }
 
   .introText,
@@ -421,6 +442,7 @@
   }
 
   .workHeader {
+    flex-wrap: wrap;
     gap: 12px;
   }
 

@@ -6,6 +6,8 @@ import { caseStudies } from "@/content/cases";
 
 import styles from "./page.module.css";
 
+const CASE_METRIC_LIMIT = 2;
+
 export default function CasesPage() {
   return (
     <main className={styles.page}>
@@ -43,7 +45,7 @@ export default function CasesPage() {
                   </div>
 
                   <div className={styles.impactMetrics}>
-                    {study.results.metrics.map((metric) => (
+                    {study.results.metrics.slice(0, CASE_METRIC_LIMIT).map((metric) => (
                       <div key={metric.label} className={styles.impactMetric}>
                         <span className={styles.impactMetricValue}>{metric.value}</span>
                         <span className={styles.impactMetricLabel}>{metric.label}</span>
