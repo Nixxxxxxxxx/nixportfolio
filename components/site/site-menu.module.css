@@ -6,13 +6,13 @@
 }
 
 .rootOpen {
-  z-index: 60;
+  z-index: 40;
 }
 
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 30;
   pointer-events: none;
 }
 
@@ -36,8 +36,8 @@
 }
 
 .panel {
-  position: absolute;
-  z-index: 1;
+  position: fixed;
+  z-index: 60;
   width: min(672px, calc(100vw - 80px));
   display: grid;
   grid-template-columns: repeat(3, 208px);
@@ -51,21 +51,31 @@
     transform 220ms var(--ease-standard);
 }
 
-.panelAbove {
-  bottom: calc(100% + 32px);
+.panelAboveCenter {
+  transform: translate(-50%, calc(-100% + 8px));
 }
 
-.panelBelow {
-  top: calc(100% + 24px);
+.panelOpen.panelAboveCenter {
+  transform: translate(-50%, -100%);
 }
 
-.panelAlignCenter {
-  left: 50%;
+.panelBelowCenter {
   transform: translate(-50%, 8px);
 }
 
-.panelAlignEnd {
-  right: 0;
+.panelOpen.panelBelowCenter {
+  transform: translate(-50%, 0);
+}
+
+.panelAboveEnd {
+  transform: translateY(calc(-100% + 8px));
+}
+
+.panelOpen.panelAboveEnd {
+  transform: translateY(-100%);
+}
+
+.panelBelowEnd {
   transform: translateY(8px);
 }
 
@@ -76,11 +86,7 @@
   transition-delay: 0s;
 }
 
-.panelOpen.panelAlignCenter {
-  transform: translate(-50%, 0);
-}
-
-.panelOpen.panelAlignEnd {
+.panelOpen.panelBelowEnd {
   transform: translateY(0);
 }
 
@@ -200,11 +206,6 @@
   .panel {
     width: min(360px, calc(100vw - 64px));
     grid-template-columns: 1fr;
-  }
-
-  .panelAlignCenter {
-    left: 50%;
-    right: auto;
   }
 }
 

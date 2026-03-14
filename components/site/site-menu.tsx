@@ -1,9 +1,11 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { createPortal } from "react-dom";
 
 import styles from "./site-menu.module.css";
 
@@ -21,6 +23,8 @@ type MenuCard = {
   title: string;
   imageSrc: string;
 };
+
+type MenuPanelStyle = Pick<CSSProperties, "top" | "left" | "right">;
 
 const menuCards: readonly MenuCard[] = [
   {
@@ -40,14 +44,15 @@ const menuCards: readonly MenuCard[] = [
   }
 ];
 
-const placementClassNames = {
-  above: styles.panelAbove,
-  below: styles.panelBelow
-} as const;
-
 const alignClassNames = {
-  center: styles.panelAlignCenter,
-  end: styles.panelAlignEnd
+  center: {
+    above: styles.panelAboveCenter,
+    below: styles.panelBelowCenter
+  },
+  end: {
+    above: styles.panelAboveEnd,
+    below: styles.panelBelowEnd
+  }
 } as const;
 
 function CloseIcon() {
@@ -94,8 +99,15 @@ export function SiteMenu({
   className
 }: SiteMenuProps) {
   const pathname = usePathname();
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [panelStyle, setPanelStyle] = useState<MenuPanelStyle>({});
   const menuId = useId();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     setIsOpen(false);
@@ -123,6 +135,100 @@ export function SiteMenu({
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const updatePosition = () => {
+      const rect = buttonRef.current?.getBoundingClientRect();
+
+      if (!rect) {
+        return;
+      }
+
+      const top = placement === "above" ? rect.top - 32 : rect.bottom + 24;
+
+      if (align === "center") {
+        setPanelStyle({
+          top: `${top}px`,
+          left: `${rect.left + rect.width / 2}px`,
+          right: "auto"
+        });
+        return;
+      }
+
+      setPanelStyle({
+        top: `${top}px`,
+        left: "auto",
+        right: `${Math.max(window.innerWidth - rect.right, 20)}px`
+      });
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+    };
+  }, [align, isOpen, placement]);
+
+  const portalContent =
+    isMounted
+      ? createPortal(
+          <>
+            <div
+              className={[
+                styles.overlay,
+                isOpen ? styles.overlayOpen : ""
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              <button
+                type="button"
+                className={styles.scrim}
+                aria-label="Закрыть меню"
+                tabIndex={isOpen ? 0 : -1}
+                onClick={() => setIsOpen(false)}
+              />
+            </div>
+
+            <nav
+              id={menuId}
+              aria-hidden={!isOpen}
+              className={[
+                styles.panel,
+                alignClassNames[align][placement],
+                isOpen ? styles.panelOpen : ""
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              style={panelStyle}
+              aria-label="Раскрытое меню сайта"
+            >
+              {menuCards.map((card) => (
+                <Link
+                  key={card.href}
+                  href={card.href}
+                  className={styles.menuCard}
+                  tabIndex={isOpen ? 0 : -1}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <MenuCardPreview imageSrc={card.imageSrc} />
+                  <div className={styles.menuCardText}>
+                    <p className={styles.menuCardLabel}>{card.title}</p>
+                  </div>
+                </Link>
+              ))}
+            </nav>
+          </>,
+          document.body
+        )
+      : null;
+
   return (
     <div
       className={[
@@ -133,53 +239,8 @@ export function SiteMenu({
         .filter(Boolean)
         .join(" ")}
     >
-      <div
-        className={[
-          styles.overlay,
-          isOpen ? styles.overlayOpen : ""
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        <button
-          type="button"
-          className={styles.scrim}
-          aria-label="Закрыть меню"
-          tabIndex={isOpen ? 0 : -1}
-          onClick={() => setIsOpen(false)}
-        />
-      </div>
-
-      <nav
-        id={menuId}
-        aria-hidden={!isOpen}
-        className={[
-          styles.panel,
-          placementClassNames[placement],
-          alignClassNames[align],
-          isOpen ? styles.panelOpen : ""
-        ]
-          .filter(Boolean)
-          .join(" ")}
-        aria-label="Раскрытое меню сайта"
-      >
-        {menuCards.map((card) => (
-          <Link
-            key={card.href}
-            href={card.href}
-            className={styles.menuCard}
-            tabIndex={isOpen ? 0 : -1}
-            onClick={() => setIsOpen(false)}
-          >
-            <MenuCardPreview imageSrc={card.imageSrc} />
-            <div className={styles.menuCardText}>
-              <p className={styles.menuCardLabel}>{card.title}</p>
-            </div>
-          </Link>
-        ))}
-      </nav>
-
       <button
+        ref={buttonRef}
         type="button"
         className={[
           styles.menuButton,
@@ -207,6 +268,8 @@ export function SiteMenu({
         </span>
         <span className={styles.menuLabel}>{isOpen ? "Закрыть" : "Меню"}</span>
       </button>
+
+      {portalContent}
     </div>
   );
 }
