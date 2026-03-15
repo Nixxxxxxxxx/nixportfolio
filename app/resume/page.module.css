@@ -457,11 +457,11 @@
 
 @media (max-width: 768px) {
   .topBarLayer {
-    top: 16px;
+    top: 12px;
   }
 
   .topBar {
-    width: calc(100% - 32px);
+    width: calc(100% - 24px);
   }
 
   .backButton {
@@ -571,7 +571,7 @@
 
 @media (max-width: 480px) {
   .topBar {
-    width: calc(100% - 20px);
+    width: calc(100% - 16px);
   }
 
   .canvas {

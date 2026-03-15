@@ -156,7 +156,7 @@
   }
 
   .caseList {
-    gap: 16px;
+    gap: 24px;
   }
 
   .caseRow {
@@ -182,6 +182,10 @@
 @media (max-width: 480px) {
   .canvas {
     padding: 0 var(--layout-gutter-phone) var(--bottom-menu-clearance-mobile);
+  }
+
+  .caseList {
+    gap: 24px;
   }
 
   .caseRow {

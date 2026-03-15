@@ -266,11 +266,11 @@
     right: auto !important;
     top: auto !important;
     bottom: calc(var(--safe-bottom) + 96px);
-    width: min(420px, calc(100vw - 24px));
+    width: min(420px, calc(100vw - 20px));
     max-height: min(72svh, 700px);
     padding: 0;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
     overflow-y: auto;
     overscroll-behavior: contain;
     transform: translate(-50%, 18px);
@@ -292,15 +292,36 @@
   }
 
   .menuCard {
-    min-height: 208px;
-    padding: 16px;
-    gap: 14px;
-    border-radius: var(--mobile-card-radius);
+    position: relative;
+    min-height: 80px;
+    padding: 8px 14px 8px 10px;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 14px;
+    align-items: center;
+    column-gap: 12px;
+    border-radius: 16px;
+    box-shadow: 0 10px 26px rgba(16, 18, 20, 0.08);
+  }
+
+  .menuCard::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-top: 1.8px solid rgba(16, 18, 20, 0.7);
+    border-right: 1.8px solid rgba(16, 18, 20, 0.7);
+    transform: rotate(45deg);
+    justify-self: end;
+  }
+
+  .menuCard:hover {
+    box-shadow: 0 10px 26px rgba(16, 18, 20, 0.08);
   }
 
   .menuCardVisual {
-    height: 146px;
-    border-radius: 16px;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    justify-self: start;
   }
 
   .menuCardArt {
@@ -315,14 +336,24 @@
     transform: none;
   }
 
+  .menuCardVisual::before {
+    display: none;
+  }
+
   .menuCard:hover .menuCardArt,
   .menuCard:focus-visible .menuCardArt {
     transform: none;
     filter: none;
   }
 
+  .menuCardText {
+    min-width: 0;
+  }
+
   .menuCardLabel {
-    font-size: 16px;
+    font-size: 20px;
+    text-align: left;
+    line-height: 1.2;
   }
 
   .menuButton {
@@ -338,20 +369,26 @@
 
 @media (max-width: 480px) {
   .panel {
-    width: calc(100vw - 20px);
+    width: calc(100vw - 16px);
     bottom: calc(var(--safe-bottom) + 88px);
-    gap: 10px;
+    gap: 8px;
   }
 
   .menuCard {
-    min-height: 196px;
-    padding: 14px;
-    gap: 12px;
-    border-radius: 18px;
+    min-height: 74px;
+    padding: 8px 12px 8px 10px;
+    grid-template-columns: 58px minmax(0, 1fr) 14px;
+    column-gap: 10px;
+    border-radius: 14px;
   }
 
   .menuCardVisual {
-    height: 132px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .menuCardLabel {
+    font-size: 18px;
   }
 
   .menuButton {

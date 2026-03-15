@@ -650,6 +650,14 @@
     grid-template-columns: 1fr;
   }
 
+  .resultColumns {
+    row-gap: 30px;
+  }
+
+  .twoColumnGrid {
+    row-gap: 26px;
+  }
+
   .heroSection {
     height: auto;
   }
@@ -848,6 +856,34 @@
     gap: 20px;
   }
 
+  .resultColumns {
+    row-gap: 28px;
+  }
+
+  .resultColumn {
+    gap: 14px;
+  }
+
+  .resultTextStack {
+    gap: 14px;
+  }
+
+  .twoColumnGrid {
+    row-gap: 24px;
+  }
+
+  .storyCard {
+    gap: 14px;
+  }
+
+  .storyHeader {
+    gap: 10px;
+  }
+
+  .quoteGroup {
+    gap: 8px;
+  }
+
   .resultsSection .resultSummary {
     margin-left: 0;
   }
@@ -925,6 +961,22 @@
     width: 24px;
     height: 24px;
     font-size: 21px;
+  }
+
+  .resultColumns {
+    row-gap: 24px;
+  }
+
+  .twoColumnGrid {
+    row-gap: 20px;
+  }
+
+  .resultColumn {
+    gap: 12px;
+  }
+
+  .resultTextStack {
+    gap: 12px;
   }
 
   .flowScroller {

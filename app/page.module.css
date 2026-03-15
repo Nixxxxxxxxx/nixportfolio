@@ -231,18 +231,18 @@
     width: 100%;
     height: auto;
     display: grid;
-    justify-items: center;
-    text-align: center;
+    justify-items: start;
+    text-align: left;
     gap: 14px;
   }
 
   .identity,
   .socials {
-    width: auto;
+    width: 100%;
   }
 
   .socials {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
