@@ -88,11 +88,6 @@ export default function AboutPage() {
                 className={styles.photo}
               />
             </div>
-
-            <div className={styles.photoCaptionWrap}>
-              <span className={styles.photoCurve} aria-hidden="true" />
-              <p className={styles.photoCaption}>{aboutContent.photoCaption}</p>
-            </div>
           </FadeIn>
 
           <FadeIn className={styles.introSummary} delay={0.14} animatePosition={false}>

@@ -123,37 +123,6 @@
   object-fit: cover;
 }
 
-.photoCaptionWrap {
-  width: var(--photo-size);
-  margin-top: -2px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 8px;
-  transform: none;
-}
-
-.photoCurve {
-  order: 2;
-  width: 22px;
-  height: 30px;
-  flex-shrink: 0;
-  border-top: 2px solid #101214;
-  border-right: 2px solid #101214;
-  border-top-right-radius: 24px;
-}
-
-.photoCaption {
-  order: 1;
-  margin: 4px 0 0;
-  color: #101214;
-  font-size: 16px;
-  line-height: 1.25;
-  letter-spacing: 0;
-  font-weight: 500;
-  text-align: right;
-}
-
 .section {
   width: min(100%, 1280px);
   margin-inline: auto;
@@ -337,11 +306,6 @@
     border-radius: 20px;
   }
 
-  .photoCurve {
-    width: 20px;
-    height: 28px;
-  }
-
   .sectionTitle {
     font-size: 24px;
     line-height: 1.35;
@@ -378,15 +342,6 @@
 
   .photoWrap {
     border-radius: 16px;
-  }
-
-  .photoCaptionWrap {
-    gap: 5px;
-  }
-
-  .photoCurve {
-    width: 18px;
-    height: 24px;
   }
 
   .section {
