@@ -145,17 +145,6 @@
   z-index: 2;
 }
 
-.menuCardVisual::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 85%, rgba(0, 115, 236, 0.2), rgba(0, 115, 236, 0));
-  opacity: 0;
-  transition: opacity 300ms var(--ease-standard);
-  pointer-events: none;
-  z-index: 1;
-}
-
 .menuCardArt {
   object-fit: cover;
   transform: scale(1.01);
@@ -183,11 +172,6 @@
 .menuCard:focus-visible .menuCardVisual::before {
   opacity: 1;
   transform: translateX(38%) rotate(10deg);
-}
-
-.menuCard:hover .menuCardVisual::after,
-.menuCard:focus-visible .menuCardVisual::after {
-  opacity: 1;
 }
 
 .menuCardLabel {
@@ -279,7 +263,6 @@
   .menuCard,
   .menuCardVisual,
   .menuCardVisual::before,
-  .menuCardVisual::after,
   .menuCardArt,
   .menuButton,
   .scrim,
