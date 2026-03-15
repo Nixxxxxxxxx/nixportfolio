@@ -231,9 +231,14 @@
     width: 100%;
     height: auto;
     display: grid;
-    justify-items: start;
+    justify-items: stretch;
     text-align: left;
     gap: 14px;
+  }
+
+  .footer > .entryIdentity,
+  .footer > .entrySocials {
+    width: 100%;
   }
 
   .identity,
@@ -271,5 +276,9 @@
 
   .socials {
     gap: 14px;
+  }
+
+  .footer {
+    gap: 12px;
   }
 }

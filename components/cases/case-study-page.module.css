@@ -736,69 +736,9 @@
   }
 }
 
-@media (max-width: 780px) {
-  .canvas {
-    padding-bottom: 72px;
-  }
-
-  .canvas > * + * {
-    margin-top: 120px;
-  }
-
-  .introTitle,
-  .introSummary {
-    font-size: 16px;
-  }
-
-  .sectionTitle {
-    font-size: 36px;
-  }
-
-  .heroVisual {
-    height: 360px;
-  }
-
-  .heroShot {
-    top: 96px;
-    left: 16px;
-    width: calc(100% - 32px);
-  }
-
-  .overviewCard {
-    min-height: auto;
-  }
-
-  .overviewGrid {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-
-  .metrics {
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-  }
-
-  .comparisonGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .metricValue {
-    font-size: 48px;
-    line-height: 1.2;
-  }
-
-  .flowScroller {
-    width: 1400px;
-  }
-
-  .flowImage {
-    width: 1388px;
-  }
-}
-
 @media (max-width: 768px) {
   .canvas {
+    --mobile-rhythm-step: 12px;
     padding-bottom: var(--bottom-menu-clearance-mobile);
   }
 
@@ -809,6 +749,11 @@
   .intro {
     padding: 108px var(--layout-gutter-tablet) 0;
     gap: 14px;
+  }
+
+  .introTitle,
+  .introSummary {
+    font-size: 16px;
   }
 
   .heroSection,
@@ -835,10 +780,13 @@
   }
 
   .overviewGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
     gap: 10px;
   }
 
   .overviewCard {
+    min-height: auto;
     padding: 18px 16px 16px;
     border-radius: var(--mobile-card-radius);
   }
@@ -849,39 +797,53 @@
   }
 
   .resultsSection {
-    gap: 24px;
+    gap: 28px;
   }
 
   .resultSummary {
-    gap: 20px;
+    gap: calc(28px + var(--mobile-rhythm-step));
+  }
+
+  .resultIntro {
+    gap: calc(24px + var(--mobile-rhythm-step));
+  }
+
+  .metrics {
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
   }
 
   .resultColumns {
-    row-gap: 28px;
+    row-gap: calc(36px + var(--mobile-rhythm-step));
   }
 
   .resultColumn {
-    gap: 14px;
+    gap: calc(18px + var(--mobile-rhythm-step));
   }
 
   .resultTextStack {
-    gap: 14px;
+    gap: calc(18px + var(--mobile-rhythm-step));
   }
 
   .twoColumnGrid {
-    row-gap: 24px;
+    row-gap: calc(30px + var(--mobile-rhythm-step));
   }
 
   .storyCard {
-    gap: 14px;
+    gap: calc(22px + var(--mobile-rhythm-step));
   }
 
   .storyHeader {
-    gap: 10px;
+    gap: calc(14px + var(--mobile-rhythm-step));
+  }
+
+  .storyDivider {
+    margin: calc(4px + var(--mobile-rhythm-step)) 0 calc(10px + var(--mobile-rhythm-step));
   }
 
   .quoteGroup {
-    gap: 8px;
+    gap: calc(16px + var(--mobile-rhythm-step));
   }
 
   .resultsSection .resultSummary {
@@ -889,20 +851,39 @@
   }
 
   .comparisonBlock {
-    gap: 14px;
+    gap: calc(18px + var(--mobile-rhythm-step));
   }
 
   .comparisonGrid {
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .metricValue {
+    font-size: 48px;
+    line-height: 1.2;
   }
 
   .processGrid {
-    gap: 16px;
+    gap: calc(24px + var(--mobile-rhythm-step));
+  }
+
+  .processCard {
+    gap: calc(14px + var(--mobile-rhythm-step));
+  }
+
+  .flowScroller {
+    width: 1400px;
+  }
+
+  .flowImage {
+    width: 1388px;
   }
 }
 
 @media (max-width: 480px) {
   .canvas {
+    --mobile-rhythm-step: 12px;
     padding-bottom: var(--bottom-menu-clearance-mobile);
   }
 
@@ -964,19 +945,39 @@
   }
 
   .resultColumns {
-    row-gap: 24px;
+    row-gap: calc(32px + var(--mobile-rhythm-step));
   }
 
   .twoColumnGrid {
-    row-gap: 20px;
+    row-gap: calc(28px + var(--mobile-rhythm-step));
   }
 
   .resultColumn {
-    gap: 12px;
+    gap: calc(16px + var(--mobile-rhythm-step));
   }
 
   .resultTextStack {
-    gap: 12px;
+    gap: calc(16px + var(--mobile-rhythm-step));
+  }
+
+  .storyCard {
+    gap: calc(16px + var(--mobile-rhythm-step));
+  }
+
+  .storyDivider {
+    margin: calc(2px + var(--mobile-rhythm-step)) 0 calc(8px + var(--mobile-rhythm-step));
+  }
+
+  .quoteGroup {
+    gap: calc(14px + var(--mobile-rhythm-step));
+  }
+
+  .processGrid {
+    gap: calc(20px + var(--mobile-rhythm-step));
+  }
+
+  .processCard {
+    gap: calc(12px + var(--mobile-rhythm-step));
   }
 
   .flowScroller {

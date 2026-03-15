@@ -265,22 +265,22 @@
     left: 50% !important;
     right: auto !important;
     top: auto !important;
-    bottom: calc(var(--safe-bottom) + 96px);
-    width: min(420px, calc(100vw - 20px));
-    max-height: min(72svh, 700px);
+    bottom: calc(var(--safe-bottom) + 90px);
+    width: min(380px, calc(100vw - 20px));
+    max-height: min(68svh, 640px);
     padding: 0;
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 8px;
     overflow-y: auto;
     overscroll-behavior: contain;
-    transform: translate(-50%, 18px);
+    transform: translate(-50%, 16px);
   }
 
   .panelAboveCenter,
   .panelBelowCenter,
   .panelAboveEnd,
   .panelBelowEnd {
-    transform: translate(-50%, 18px);
+    transform: translate(-50%, 16px);
   }
 
   .panelOpen,
@@ -293,35 +293,30 @@
 
   .menuCard {
     position: relative;
-    min-height: 80px;
-    padding: 8px 14px 8px 10px;
+    min-height: 72px;
+    padding: 7px 10px 7px 9px;
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr) 14px;
+    grid-template-columns: 56px minmax(0, 1fr);
     align-items: center;
-    column-gap: 12px;
-    border-radius: 16px;
-    box-shadow: 0 10px 26px rgba(16, 18, 20, 0.08);
+    column-gap: 10px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(16, 18, 20, 0.07);
   }
 
   .menuCard::after {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-top: 1.8px solid rgba(16, 18, 20, 0.7);
-    border-right: 1.8px solid rgba(16, 18, 20, 0.7);
-    transform: rotate(45deg);
-    justify-self: end;
+    content: none;
   }
 
   .menuCard:hover {
-    box-shadow: 0 10px 26px rgba(16, 18, 20, 0.08);
+    box-shadow: 0 8px 20px rgba(16, 18, 20, 0.07);
   }
 
   .menuCardVisual {
-    width: 64px;
-    height: 64px;
-    border-radius: 12px;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
     justify-self: start;
+    background: #f2f2f4;
   }
 
   .menuCardArt {
@@ -351,9 +346,9 @@
   }
 
   .menuCardLabel {
-    font-size: 20px;
+    font-size: 17px;
     text-align: left;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .menuButton {
@@ -369,26 +364,27 @@
 
 @media (max-width: 480px) {
   .panel {
-    width: calc(100vw - 16px);
-    bottom: calc(var(--safe-bottom) + 88px);
-    gap: 8px;
+    width: calc(100vw - 14px);
+    bottom: calc(var(--safe-bottom) + 82px);
+    gap: 6px;
   }
 
   .menuCard {
-    min-height: 74px;
-    padding: 8px 12px 8px 10px;
-    grid-template-columns: 58px minmax(0, 1fr) 14px;
-    column-gap: 10px;
-    border-radius: 14px;
+    min-height: 66px;
+    padding: 6px 10px 6px 8px;
+    grid-template-columns: 50px minmax(0, 1fr);
+    column-gap: 8px;
+    border-radius: 12px;
   }
 
   .menuCardVisual {
-    width: 58px;
-    height: 58px;
+    width: 50px;
+    height: 50px;
+    border-radius: 9px;
   }
 
   .menuCardLabel {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .menuButton {
