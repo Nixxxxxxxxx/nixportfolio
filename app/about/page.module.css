@@ -157,19 +157,6 @@
   letter-spacing: 0.03em;
 }
 
-.skillsList {
-  display: grid;
-  gap: 10px;
-}
-
-.skillLine {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.72);
-  font-size: 16px;
-  line-height: 1.4375;
-  letter-spacing: 0.03em;
-}
-
 .socials {
   display: flex;
   align-items: center;
@@ -355,7 +342,7 @@
   }
 
   .sectionDescription,
-  .skillLine {
+  .sectionDescription {
     font-size: 15px;
   }
 }

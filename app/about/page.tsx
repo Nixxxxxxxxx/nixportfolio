@@ -102,14 +102,6 @@ export default function AboutPage() {
             </h2>
             <p className={styles.sectionDescription}>{aboutContent.skillsText}</p>
           </FadeIn>
-
-          <FadeIn className={styles.skillsList} delay={0.08} animatePosition={false}>
-            {aboutContent.skills.map((skill) => (
-              <p key={skill} className={styles.skillLine}>
-                {skill}
-              </p>
-            ))}
-          </FadeIn>
         </section>
 
         <section className={styles.section} aria-labelledby="about-experience-title">
