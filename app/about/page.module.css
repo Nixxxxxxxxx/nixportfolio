@@ -104,16 +104,17 @@
 }
 
 .photoColumn {
+  --photo-size: 188px;
   width: 451px;
   display: grid;
   justify-items: center;
-  gap: 14px;
+  gap: 0;
 }
 
 .photoWrap {
   position: relative;
-  width: 188px;
-  height: 188px;
+  width: var(--photo-size);
+  height: var(--photo-size);
   border-radius: 28px;
   overflow: hidden;
 }
@@ -123,27 +124,30 @@
 }
 
 .photoCaptionWrap {
+  width: var(--photo-size);
+  margin-top: -2px;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  transform: translateX(28px);
+  justify-content: flex-start;
+  gap: 6px;
+  transform: none;
 }
 
 .photoCurve {
-  width: 30px;
-  height: 44px;
+  width: 22px;
+  height: 30px;
   flex-shrink: 0;
   border-top: 2px solid #101214;
   border-right: 2px solid #101214;
-  border-top-right-radius: 36px;
+  border-top-right-radius: 24px;
 }
 
 .photoCaption {
-  margin: 0;
+  margin: 2px 0 0;
   color: #101214;
-  font-size: 42px;
-  line-height: 1;
-  letter-spacing: -0.01em;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: 0;
   font-weight: 500;
 }
 
@@ -322,23 +326,17 @@
     line-height: 1.35;
   }
 
+  .photoColumn {
+    --photo-size: 140px;
+  }
+
   .photoWrap {
-    width: 140px;
-    height: 140px;
     border-radius: 20px;
   }
 
-  .photoCaptionWrap {
-    transform: translateX(16px);
-  }
-
   .photoCurve {
-    width: 24px;
-    height: 34px;
-  }
-
-  .photoCaption {
-    font-size: 28px;
+    width: 20px;
+    height: 28px;
   }
 
   .sectionTitle {
@@ -371,24 +369,21 @@
     line-height: 1.35;
   }
 
+  .photoColumn {
+    --photo-size: 112px;
+  }
+
   .photoWrap {
-    width: 112px;
-    height: 112px;
     border-radius: 16px;
   }
 
   .photoCaptionWrap {
-    gap: 8px;
-    transform: translateX(8px);
+    gap: 5px;
   }
 
   .photoCurve {
-    width: 20px;
-    height: 28px;
-  }
-
-  .photoCaption {
-    font-size: 21px;
+    width: 18px;
+    height: 24px;
   }
 
   .section {
