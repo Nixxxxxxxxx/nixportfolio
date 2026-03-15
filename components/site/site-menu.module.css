@@ -99,13 +99,13 @@
   align-content: start;
   border-radius: 24px;
   background: #ffffff;
-  box-shadow: 0 22px 68px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
   transform-style: preserve-3d;
-  transition: box-shadow 300ms var(--ease-standard);
+  transition: box-shadow 360ms var(--ease-standard);
 }
 
 .menuCard:hover {
-  box-shadow: 0 28px 82px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 30px 92px rgba(0, 0, 0, 0.16);
 }
 
 .menuCard:focus-visible {
@@ -119,36 +119,35 @@
   overflow: hidden;
   border-radius: 20px;
   background: #f3f4f7;
-  transform: translateY(0) scale(1);
+  transform: perspective(760px) rotateX(0deg) rotateY(0deg) scale(1);
   transform-origin: center;
   box-shadow: 0 10px 24px rgba(9, 32, 78, 0.12);
   transition:
-    transform 300ms var(--ease-standard),
-    box-shadow 300ms var(--ease-standard);
+    transform 420ms var(--ease-standard),
+    box-shadow 420ms var(--ease-standard);
   will-change: transform;
 }
 
 .menuCardVisual::before {
   content: "";
   position: absolute;
-  inset: -26% -14%;
+  inset: -36% -12%;
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0) 20%,
-    rgba(255, 255, 255, 0.38) 46%,
+    rgba(255, 255, 255, 0.32) 46%,
     rgba(255, 255, 255, 0) 68%
   );
   opacity: 0;
-  transform: translateX(-44%) rotate(10deg);
-  transition: opacity 300ms var(--ease-standard), transform 520ms var(--ease-standard);
+  transform: translate3d(-18%, -8%, 0) rotate(8deg);
+  transition: opacity 420ms var(--ease-standard), transform 420ms var(--ease-standard);
   pointer-events: none;
   z-index: 2;
 }
 
 .menuCardArt {
   object-fit: cover;
-  transform: scale(1.01);
-  transition: transform 320ms var(--ease-standard), filter 320ms var(--ease-standard);
+  transition: transform 420ms var(--ease-standard), filter 420ms var(--ease-standard);
   will-change: transform;
 }
 
@@ -158,20 +157,20 @@
 
 .menuCard:hover .menuCardVisual,
 .menuCard:focus-visible .menuCardVisual {
-  transform: translateY(-2px) scale(1.028);
-  box-shadow: 0 18px 42px rgba(9, 32, 78, 0.2);
+  transform: perspective(760px) rotateX(5deg) rotateY(-6deg) scale(1.028);
+  box-shadow: 0 22px 42px rgba(9, 32, 78, 0.2);
 }
 
 .menuCard:hover .menuCardArt,
 .menuCard:focus-visible .menuCardArt {
-  transform: scale(1.048);
-  filter: saturate(1.06) contrast(1.03);
+  transform: scale(1.05);
+  filter: saturate(1.08) contrast(1.04);
 }
 
 .menuCard:hover .menuCardVisual::before,
 .menuCard:focus-visible .menuCardVisual::before {
   opacity: 1;
-  transform: translateX(38%) rotate(10deg);
+  transform: translate3d(8%, 0, 0) rotate(8deg);
 }
 
 .menuCardLabel {
