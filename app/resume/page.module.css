@@ -9,6 +9,57 @@
   padding: 64px 120px 180px;
 }
 
+.topBarLayer {
+  position: fixed;
+  inset-inline: 0;
+  top: 24px;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.topBar {
+  width: min(calc(100% - 64px), 1456px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.topBar > * {
+  pointer-events: auto;
+}
+
+.backButton {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(245, 245, 245, 0.96);
+  box-shadow: 0 10px 26px rgba(16, 18, 20, 0.06);
+  color: #101214;
+  transition:
+    background-color 240ms var(--ease-standard),
+    box-shadow 240ms var(--ease-standard);
+}
+
+.backButton:hover {
+  background: #efefef;
+  box-shadow: 0 14px 34px rgba(16, 18, 20, 0.09);
+}
+
+.backButton:focus-visible {
+  outline: 2px solid rgba(0, 115, 236, 0.35);
+  outline-offset: 4px;
+}
+
+.backIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
 .layout {
   display: grid;
   grid-template-columns: 217px 738px;
@@ -67,20 +118,20 @@
 .contactLabel {
   margin: 0;
   color: #818190;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 15px;
+  line-height: 1.36;
   font-weight: 400;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .contactValue,
 .contactValueLink {
   margin: 0;
   color: #101214;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.36;
   font-weight: 500;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .contactValueLink {
@@ -128,7 +179,7 @@
   line-height: 1.18;
   letter-spacing: -0.01em;
   font-weight: 700;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .role {
@@ -136,7 +187,7 @@
   font-size: 24px;
   line-height: 1.2;
   font-weight: 400;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .location {
@@ -148,7 +199,7 @@
   font-size: 22px;
   line-height: 1.48;
   font-weight: 300;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .mapPinIcon {
@@ -173,7 +224,7 @@
   font-size: 18px;
   line-height: 1.4;
   font-weight: 400;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .experienceStack {
@@ -211,7 +262,7 @@
   font-size: 22px;
   line-height: 32px;
   font-weight: 600;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .workRole {
@@ -220,7 +271,7 @@
   font-size: 18px;
   line-height: 1.4;
   font-weight: 400;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .period {
@@ -232,7 +283,7 @@
   font-size: 16px;
   line-height: 1.4;
   font-weight: 500;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .briefcaseIcon {
@@ -257,7 +308,7 @@
   font-size: 16px;
   line-height: 1.4;
   font-weight: 400;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .companyBadge {
@@ -299,7 +350,7 @@
   font-size: 24px;
   line-height: 1;
   font-weight: 700;
-  font-family: "Jura", "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .magnitBadge {
@@ -328,7 +379,7 @@
   font-size: 18px;
   line-height: 1.4;
   font-weight: 400;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .bulletList {
@@ -343,7 +394,7 @@
   font-size: 18px;
   line-height: 1.4;
   font-weight: 400;
-  font-family: "Inter", var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 .bulletItem strong {
@@ -363,6 +414,10 @@
   .layout {
     grid-template-columns: 217px minmax(0, 1fr);
     column-gap: 56px;
+  }
+
+  .topBar {
+    width: min(calc(100% - 48px), 1456px);
   }
 }
 
@@ -401,6 +456,20 @@
 }
 
 @media (max-width: 760px) {
+  .topBarLayer {
+    top: 16px;
+  }
+
+  .topBar {
+    width: calc(100% - 32px);
+  }
+
+  .backButton {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+
   .canvas {
     padding: 24px 16px 144px;
   }

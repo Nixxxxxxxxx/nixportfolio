@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { FadeIn } from "@/components/animations/fade-in";
 import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
@@ -36,6 +37,20 @@ function BriefcaseIcon() {
         d="M4 9.5C4 8.67 4.67 8 5.5 8H18.5C19.33 8 20 8.67 20 9.5V17.5C20 18.33 19.33 19 18.5 19H5.5C4.67 19 4 18.33 4 17.5V9.5Z"
         stroke="currentColor"
         strokeWidth="1.7"
+      />
+    </svg>
+  );
+}
+
+function BackArrowIcon() {
+  return (
+    <svg className={styles.backIcon} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M14.5 6L8.5 12L14.5 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -95,6 +110,14 @@ export default function ResumePage() {
   return (
     <main className={styles.page}>
       <div className={styles.canvas}>
+        <div className={styles.topBarLayer}>
+          <div className={styles.topBar}>
+            <Link href="/" className={styles.backButton} aria-label="Назад на главную">
+              <BackArrowIcon />
+            </Link>
+          </div>
+        </div>
+
         <section className={styles.layout}>
           <FadeIn className={styles.contactColumn} animatePosition={false}>
             <aside className={styles.contactCard}>
@@ -137,14 +160,13 @@ export default function ResumePage() {
               </div>
 
               <div className={styles.contactBottom}>
-                <p className={styles.contactLabel}>Написать в telegram</p>
                 <a
                   className={styles.contactValueLink}
-                  href={resumeData.contacts.directTelegramUrl}
+                  href={`https://t.me/${resumeData.contacts.telegram.replace("@", "")}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {resumeData.contacts.directTelegramLabel}
+                  {resumeData.contacts.telegram}
                 </a>
               </div>
             </aside>

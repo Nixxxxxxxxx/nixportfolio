@@ -1,10 +1,15 @@
 "use client";
 
-import { FadeIn } from "@/components/animations/fade-in";
+import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
+
 import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
 import { profile } from "@/content/profile";
 
 import styles from "./page.module.css";
+
+const HOME_ENTRY_MIN_DELAY_MS = 280;
+const HOME_ENTRY_MEDIA_FALLBACK_MS = 1600;
 
 function TelegramIcon() {
   return (
@@ -48,6 +53,70 @@ function VcRuIcon() {
 }
 
 export default function HomePage() {
+  const reduceMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [entryReady, setEntryReady] = useState(false);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setEntryReady(true);
+      return undefined;
+    }
+
+    let isCancelled = false;
+    let minDelayPassed = false;
+    let mediaReady = false;
+
+    const revealIfReady = () => {
+      if (!isCancelled && minDelayPassed && mediaReady) {
+        setEntryReady(true);
+      }
+    };
+
+    const markMediaReady = () => {
+      mediaReady = true;
+      revealIfReady();
+    };
+
+    const minDelayTimer = window.setTimeout(() => {
+      minDelayPassed = true;
+      revealIfReady();
+    }, HOME_ENTRY_MIN_DELAY_MS);
+
+    const fallbackTimer = window.setTimeout(() => {
+      markMediaReady();
+    }, HOME_ENTRY_MEDIA_FALLBACK_MS);
+
+    const video = videoRef.current;
+
+    if (video) {
+      if (video.readyState >= 2) {
+        markMediaReady();
+      }
+
+      video.addEventListener("loadeddata", markMediaReady);
+      video.addEventListener("canplay", markMediaReady);
+    } else {
+      markMediaReady();
+    }
+
+    return () => {
+      isCancelled = true;
+      window.clearTimeout(minDelayTimer);
+      window.clearTimeout(fallbackTimer);
+
+      if (video) {
+        video.removeEventListener("loadeddata", markMediaReady);
+        video.removeEventListener("canplay", markMediaReady);
+      }
+    };
+  }, [reduceMotion]);
+
+  const entryClassNames = (stageClassName: string) =>
+    [styles.entryItem, stageClassName, entryReady ? styles.entryReady : ""]
+      .filter(Boolean)
+      .join(" ");
+
   return (
     <main className={styles.page}>
       <div className={styles.canvas}>
@@ -57,66 +126,68 @@ export default function HomePage() {
               Главная страница Виталия Унаняна
             </h1>
 
-            <FadeIn
-              className={styles.videoStage}
-              delay={0.16}
-              duration={0.38}
-              animatePosition={false}
-            >
-              <div className={styles.videoShell} aria-hidden="true">
-                <video
-                  className={styles.video}
-                  src="/videos/home/hero.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                />
+            <div className={entryClassNames(styles.entryVideo)}>
+              <div className={styles.videoStage}>
+                <div className={styles.videoShell} aria-hidden="true">
+                  <video
+                    ref={videoRef}
+                    className={styles.video}
+                    src="/videos/home/hero.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                  />
+                </div>
               </div>
-            </FadeIn>
+            </div>
           </section>
 
           <footer className={styles.footer}>
-            <FadeIn className={styles.identity} delay={0.24} duration={0.34} animatePosition={false}>
-              <p className={styles.name}>{profile.name}</p>
-              <p className={styles.role}>{profile.subtitle}</p>
-            </FadeIn>
+            <div className={entryClassNames(styles.entryIdentity)}>
+              <div className={styles.identity}>
+                <p className={styles.name}>{profile.name}</p>
+                <p className={styles.role}>{profile.subtitle}</p>
+              </div>
+            </div>
 
-            <FadeIn className={styles.socials} delay={0.32} duration={0.34} animatePosition={false}>
-              <a
-                className={`${styles.socialItem} ${styles.socialTelegram}`}
-                href={profile.contacts.telegramUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Telegram"
-              >
-                <TelegramIcon />
-              </a>
-              <a
-                className={`${styles.socialItem} ${styles.socialDprofile}`}
-                href="https://dprofile.ru/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Dprofile"
-              >
-                <DprofileIcon />
-              </a>
-              <a
-                className={`${styles.socialItem} ${styles.socialVcru}`}
-                href="https://vc.ru/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="VC.ru"
-              >
-                <VcRuIcon />
-              </a>
-            </FadeIn>
+            <div className={entryClassNames(styles.entrySocials)}>
+              <div className={styles.socials}>
+                <a
+                  className={`${styles.socialItem} ${styles.socialTelegram}`}
+                  href={profile.contacts.telegramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Telegram"
+                >
+                  <TelegramIcon />
+                </a>
+                <a
+                  className={`${styles.socialItem} ${styles.socialDprofile}`}
+                  href="https://dprofile.ru/"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Dprofile"
+                >
+                  <DprofileIcon />
+                </a>
+                <a
+                  className={`${styles.socialItem} ${styles.socialVcru}`}
+                  href="https://vc.ru/"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="VC.ru"
+                >
+                  <VcRuIcon />
+                </a>
+              </div>
+            </div>
           </footer>
 
-          <FadeIn delay={0.4} duration={0.36} animatePosition={false}>
+          <div className={entryClassNames(styles.entryMenu)}>
             <BottomMenuDock />
-          </FadeIn>
+          </div>
         </div>
       </div>
     </main>
