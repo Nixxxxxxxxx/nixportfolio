@@ -32,8 +32,8 @@ export const profile = {
     phone: "+7 918 952 01 63",
     telegramLabel: "@nixyaka",
     telegramUrl: "https://t.me/nixyaka",
-    channelLabel: "@uxmuesli",
-    channelUrl: "https://t.me/uxmuesli"
+    channelLabel: "@nix_ux_view",
+    channelUrl: "https://t.me/nix_ux_view"
   },
   experience: [
     {

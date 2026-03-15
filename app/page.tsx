@@ -217,25 +217,25 @@ export default function HomePage() {
               <div className={styles.socials}>
                 <a
                   className={`${styles.socialItem} ${styles.socialTelegram}`}
-                  href={profile.contacts.telegramUrl}
+                  href="https://t.me/nix_ux_view"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Telegram"
+                  aria-label="Telegram канал"
                 >
                   <TelegramIcon />
                 </a>
                 <a
                   className={`${styles.socialItem} ${styles.socialDprofile}`}
-                  href="https://dprofile.ru/"
+                  href="https://dsgners.ru/nixnix"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Dprofile"
+                  aria-label="Dsgners"
                 >
                   <DprofileIcon />
                 </a>
                 <a
                   className={`${styles.socialItem} ${styles.socialVcru}`}
-                  href="https://vc.ru/"
+                  href="https://vc.ru/id4483143"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="VC.ru"

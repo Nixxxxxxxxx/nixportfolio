@@ -33,8 +33,8 @@ export const aboutContent: AboutContent = {
   mediaText:
     "Веду канал на 650 человек, активно пишу статьи на Dsgners и VC. За 4 года помогал другим дизайнерам выходить из тупика и подтягивать знания.",
   socialLinks: {
-    telegram: "https://t.me/nixyaka",
-    dprofile: "https://dprofile.ru/",
-    vc: "https://vc.ru/"
+    telegram: "https://t.me/nix_ux_view",
+    dprofile: "https://dsgners.ru/nixnix",
+    vc: "https://vc.ru/id4483143"
   }
 } as const;

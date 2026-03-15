@@ -136,7 +136,7 @@ export default function AboutPage() {
               href={aboutContent.socialLinks.dprofile}
               target="_blank"
               rel="noreferrer"
-              aria-label="Dprofile"
+              aria-label="Dsgners"
             >
               <DprofileIcon />
             </a>
