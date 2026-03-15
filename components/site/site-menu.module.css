@@ -211,7 +211,7 @@
 
 .menuButtonFloating {
   position: fixed;
-  z-index: 110;
+  z-index: 92;
 }
 
 .menuButtonHidden {
@@ -262,7 +262,83 @@
 
 @media (max-width: 820px) {
   .panel {
-    width: min(360px, calc(100vw - 40px));
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: calc(var(--safe-bottom) + 96px);
+    width: min(420px, calc(100vw - 24px));
+    max-height: min(72svh, 700px);
+    padding: 0;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translate(-50%, 18px);
+  }
+
+  .panelAboveCenter,
+  .panelBelowCenter,
+  .panelAboveEnd,
+  .panelBelowEnd {
+    transform: translate(-50%, 18px);
+  }
+
+  .panelOpen,
+  .panelOpen.panelAboveCenter,
+  .panelOpen.panelBelowCenter,
+  .panelOpen.panelAboveEnd,
+  .panelOpen.panelBelowEnd {
+    transform: translate(-50%, 0);
+  }
+
+  .menuCard {
+    min-height: 208px;
+    padding: 16px;
+    gap: 14px;
+    border-radius: var(--mobile-card-radius);
+  }
+
+  .menuCardVisual {
+    height: 144px;
+    border-radius: 16px;
+  }
+
+  .menuCardLabel {
+    font-size: 16px;
+  }
+
+  .menuButton {
+    min-height: 52px;
+    padding-inline: 20px;
+  }
+
+  .menuLabel {
+    font-size: 17px;
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    width: calc(100vw - 20px);
+    bottom: calc(var(--safe-bottom) + 88px);
+    gap: 10px;
+  }
+
+  .menuCard {
+    min-height: 196px;
+    padding: 14px;
+    gap: 12px;
+    border-radius: 18px;
+  }
+
+  .menuCardVisual {
+    height: 132px;
+  }
+
+  .menuButton {
+    min-height: 50px;
+    padding-inline: 18px;
   }
 }
 

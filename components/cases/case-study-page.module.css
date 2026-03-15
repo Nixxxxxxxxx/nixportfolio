@@ -788,3 +788,150 @@
     width: 1388px;
   }
 }
+
+@media (max-width: 768px) {
+  .canvas {
+    padding-bottom: var(--bottom-menu-clearance-mobile);
+  }
+
+  .canvas > * + * {
+    margin-top: 88px;
+  }
+
+  .intro {
+    padding: 108px var(--layout-gutter-tablet) 0;
+    gap: 16px;
+  }
+
+  .heroSection,
+  .resultsSection,
+  .standardSection,
+  .finalResultsSection {
+    width: calc(100% - (var(--layout-gutter-tablet) * 2));
+  }
+
+  .heroVisual {
+    height: auto;
+    min-height: 320px;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .heroShot {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    max-width: none;
+  }
+
+  .overviewGrid {
+    gap: 12px;
+  }
+
+  .overviewCard {
+    padding: 20px 18px 18px;
+    border-radius: var(--mobile-card-radius);
+  }
+
+  .sectionTitle {
+    font-size: 34px;
+    line-height: 1.2;
+  }
+
+  .resultsSection {
+    gap: 28px;
+  }
+
+  .resultSummary {
+    gap: 24px;
+  }
+
+  .resultsSection .resultSummary {
+    margin-left: 0;
+  }
+
+  .comparisonBlock {
+    gap: 16px;
+  }
+
+  .comparisonGrid {
+    gap: 24px;
+  }
+
+  .processGrid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas {
+    padding-bottom: var(--bottom-menu-clearance-mobile);
+  }
+
+  .intro {
+    padding: 98px var(--layout-gutter-phone) 0;
+  }
+
+  .heroSection,
+  .resultsSection,
+  .standardSection,
+  .finalResultsSection {
+    width: calc(100% - (var(--layout-gutter-phone) * 2));
+  }
+
+  .canvas > * + * {
+    margin-top: 72px;
+  }
+
+  .introTitle,
+  .introSummary {
+    font-size: 15px;
+  }
+
+  .heroVisual {
+    min-height: 286px;
+    padding: 12px;
+  }
+
+  .sectionTitle {
+    font-size: 30px;
+  }
+
+  .cardTitle,
+  .subsectionTitle,
+  .storyTitle {
+    font-size: 21px;
+    line-height: 1.35;
+  }
+
+  .cardText,
+  .cardMetricLabel,
+  .sectionDescription,
+  .storyText,
+  .quoteLine,
+  .resultParagraph,
+  .bulletList {
+    font-size: 15px;
+  }
+
+  .metricValue {
+    font-size: 40px;
+    line-height: 1.15;
+  }
+
+  .metricArrow {
+    width: 24px;
+    height: 24px;
+    font-size: 21px;
+  }
+
+  .flowScroller {
+    width: 1180px;
+  }
+
+  .flowImage {
+    width: 1168px;
+  }
+}

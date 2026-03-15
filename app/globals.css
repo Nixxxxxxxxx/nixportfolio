@@ -11,6 +11,14 @@
   --radius-lg: 18px;
   --shadow-card: 0 14px 28px rgba(0, 0, 0, 0.04);
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --layout-gutter-desktop: 32px;
+  --layout-gutter-tablet: 24px;
+  --layout-gutter-phone: 16px;
+  --mobile-section-gap: 20px;
+  --mobile-card-radius: 20px;
+  --bottom-menu-clearance-desktop: 164px;
+  --bottom-menu-clearance-mobile: 136px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 * {
@@ -29,6 +37,7 @@ body {
   background: var(--color-background);
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 a {

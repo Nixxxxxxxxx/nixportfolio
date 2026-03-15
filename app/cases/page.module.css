@@ -6,7 +6,7 @@
 .canvas {
   width: min(100%, 1520px);
   margin: 0 auto;
-  padding: 0 32px 120px;
+  padding: 0 var(--layout-gutter-desktop) 120px;
 }
 
 .listSection {
@@ -127,7 +127,7 @@
 
 @media (max-width: 1440px) {
   .canvas {
-    padding: 0 24px 104px;
+    padding: 0 var(--layout-gutter-tablet) 104px;
   }
 
   .listSection {
@@ -161,22 +161,56 @@
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .canvas {
-    padding: 0 16px 72px;
+    padding: 0 var(--layout-gutter-tablet) var(--bottom-menu-clearance-mobile);
   }
 
   .listSection {
     margin-top: 112px;
   }
 
+  .caseList {
+    gap: 16px;
+  }
+
   .caseRow {
-    padding: 28px 20px 20px;
-    border-radius: 28px;
+    row-gap: 18px;
+    padding: 24px 20px 20px;
+    border-radius: 24px;
   }
 
   .caseSummary {
     font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .impactMetrics {
+    gap: 14px;
+  }
+
+  .impactMetricValue {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas {
+    padding: 0 var(--layout-gutter-phone) var(--bottom-menu-clearance-mobile);
+  }
+
+  .caseRow {
+    padding: 20px 16px 16px;
+    border-radius: var(--mobile-card-radius);
+  }
+
+  .caseLogoWrap {
+    height: 126px;
+    align-items: flex-start;
+  }
+
+  .caseSummary {
+    font-size: 17px;
   }
 
   .impactMetricValue {
