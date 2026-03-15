@@ -2,7 +2,7 @@
   position: fixed;
   left: 50%;
   bottom: max(66px, calc(env(safe-area-inset-bottom) + 24px));
-  z-index: 45;
+  z-index: 90;
   transform: translateX(-50%);
   width: max-content;
   pointer-events: auto;
