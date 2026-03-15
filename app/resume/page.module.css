@@ -465,9 +465,15 @@
   }
 
   .backButton {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(16, 18, 20, 0.06);
+  }
+
+  .backIcon {
+    width: 20px;
+    height: 20px;
   }
 
   .canvas {

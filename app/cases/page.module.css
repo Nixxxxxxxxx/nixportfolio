@@ -33,16 +33,7 @@
   padding: 64px;
   border-radius: 40px;
   background: #ffffff;
-  transition:
-    background-color 220ms var(--ease-standard),
-    box-shadow 220ms var(--ease-standard),
-    border-color 220ms var(--ease-standard);
-}
-
-.caseRow:hover,
-.caseRow:focus-visible {
-  background: #f5f5f5;
-  box-shadow: 0 18px 56px rgba(16, 18, 20, 0.05);
+  transition: border-color 220ms var(--ease-standard);
 }
 
 .caseRow:focus-visible {
@@ -83,12 +74,6 @@
   gap: 18px;
   justify-items: end;
   text-align: right;
-  opacity: 0;
-  transition: opacity 220ms var(--ease-standard);
-}
-
-.caseRow:hover .impactMetrics,
-.caseRow:focus-visible .impactMetrics {
   opacity: 1;
 }
 
@@ -144,8 +129,8 @@
 @media (max-width: 1180px) {
   .caseRow {
     grid-template-columns: 1fr;
-    row-gap: 28px;
-    padding: 40px 32px 32px;
+    row-gap: 22px;
+    padding: 36px 28px 28px;
   }
 
   .caseLogoWrap,
@@ -175,8 +160,8 @@
   }
 
   .caseRow {
-    row-gap: 18px;
-    padding: 24px 20px 20px;
+    row-gap: 16px;
+    padding: 22px 18px 18px;
     border-radius: 24px;
   }
 
@@ -186,7 +171,7 @@
   }
 
   .impactMetrics {
-    gap: 14px;
+    gap: 12px;
   }
 
   .impactMetricValue {
@@ -200,7 +185,8 @@
   }
 
   .caseRow {
-    padding: 20px 16px 16px;
+    row-gap: 14px;
+    padding: 18px 14px 14px;
     border-radius: var(--mobile-card-radius);
   }
 
