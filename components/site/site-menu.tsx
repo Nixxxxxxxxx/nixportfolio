@@ -25,6 +25,7 @@ type MenuCard = {
 };
 
 type MenuPanelStyle = Pick<CSSProperties, "top" | "left" | "right">;
+type FloatingButtonStyle = Pick<CSSProperties, "top" | "left" | "width" | "height">;
 
 const menuCards: readonly MenuCard[] = [
   {
@@ -103,6 +104,7 @@ export function SiteMenu({
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [panelStyle, setPanelStyle] = useState<MenuPanelStyle>({});
+  const [floatingButtonStyle, setFloatingButtonStyle] = useState<FloatingButtonStyle>({});
   const menuId = useId();
 
   useEffect(() => {
@@ -147,6 +149,13 @@ export function SiteMenu({
         return;
       }
 
+      setFloatingButtonStyle({
+        top: `${rect.top}px`,
+        left: `${rect.left}px`,
+        width: `${rect.width}px`,
+        height: `${rect.height}px`
+      });
+
       const top = placement === "above" ? rect.top - 32 : rect.bottom + 24;
 
       if (align === "center") {
@@ -179,6 +188,28 @@ export function SiteMenu({
     isMounted
       ? createPortal(
           <>
+            {isOpen ? (
+              <button
+                type="button"
+                className={[
+                  styles.menuButton,
+                  styles.menuButtonActive,
+                  styles.menuButtonFloating
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                style={floatingButtonStyle}
+                aria-expanded={isOpen}
+                aria-controls={menuId}
+                onClick={() => setIsOpen(false)}
+              >
+                <span className={styles.menuIconWrap} aria-hidden="true">
+                  <CloseIcon />
+                </span>
+                <span className={styles.menuLabel}>Закрыть</span>
+              </button>
+            ) : null}
+
             <div
               className={[
                 styles.overlay,
@@ -244,12 +275,14 @@ export function SiteMenu({
         type="button"
         className={[
           styles.menuButton,
-          isOpen ? styles.menuButtonActive : ""
+          isOpen ? styles.menuButtonHidden : ""
         ]
           .filter(Boolean)
           .join(" ")}
         aria-expanded={isOpen}
         aria-controls={menuId}
+        tabIndex={isOpen ? -1 : undefined}
+        aria-hidden={isOpen}
         onClick={() => setIsOpen((value) => !value)}
       >
         <span className={styles.menuIconWrap} aria-hidden="true">

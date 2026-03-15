@@ -209,6 +209,16 @@
   box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
 }
 
+.menuButtonFloating {
+  position: fixed;
+  z-index: 110;
+}
+
+.menuButtonHidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .menuButton:focus-visible {
   outline: 2px solid rgba(0, 115, 236, 0.35);
   outline-offset: 4px;
