@@ -1,15 +1,11 @@
-export type AboutSkill = {
-  brand: string;
-  label: string;
-};
-
 export type AboutContent = {
   shortTitle: string;
   shortText: string;
   photoCaption: string;
+  heroSummary: string;
   skillsTitle: string;
   skillsText: string;
-  skills: readonly AboutSkill[];
+  skills: readonly string[];
   experienceTitle: string;
   experienceText: string;
   mediaTitle: string;
@@ -26,15 +22,17 @@ export const aboutContent: AboutContent = {
   shortText:
     "Зовут Виталий, родом из Краснодара. В дизайне уже 4 года. Работал с ребятами из hh, Magnit, Yandex, СОГАЗ и Stepik. Также прикладывал руку к другим продуктовым командам и системам.",
   photoCaption: "Это я",
+  heroSummary:
+    "Обладаю всеми базовыми навыками дизайнера: провожу интервью, собираю сценарии, запускаю тесты. Активно применяю нейросети в работе и автоматизировал до 50% рутины.",
   skillsTitle: "Про скиллы",
   skillsText:
-    "Обладаю всеми базовыми навыками дизайнера: провожу интервью, собираю сценарии, запускаю тесты. Активно применяю нейросети в работе и автоматизировал до 50% рутины.",
+    "Обладаю всеми базовыми навыками дизайнера: провожу интервью, собираю сценарии и запускаю тесты. Активно применяю нейросети в работе и автоматизировал до 50% рутины.",
   skills: [
-    { brand: "Gemini", label: "Интервью" },
-    { brand: "OpenAI", label: "Ресерч" },
-    { brand: "Gemini", label: "Копирайт" },
-    { brand: "Gemini", label: "Идеи" },
-    { brand: "+9", label: "+9" }
+    "Интервью",
+    "Ресерч",
+    "Копирайт",
+    "Идеи",
+    "+9 навыков"
   ],
   experienceTitle: "Про опыт работы",
   experienceText:

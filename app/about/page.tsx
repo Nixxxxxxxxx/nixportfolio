@@ -70,68 +70,68 @@ export default function AboutPage() {
       </div>
 
       <div className={styles.canvas}>
-        <section className={styles.section} aria-labelledby="about-short">
-          <FadeIn className={styles.textBlock} animatePosition={false}>
-            <h1 id="about-short" className={styles.sectionTitle}>
+        <header className={styles.intro} aria-labelledby="about-intro-title">
+          <FadeIn className={styles.introTitle} animatePosition={false}>
+            <h1 id="about-intro-title" className={styles.introHeading}>
               {aboutContent.shortTitle}
             </h1>
-            <p className={styles.sectionText}>{aboutContent.shortText}</p>
+            <p className={styles.introText}>{aboutContent.shortText}</p>
           </FadeIn>
 
-          <FadeIn className={styles.meBlock} delay={0.08} animatePosition={false}>
-            <div className={styles.mePhotoWrap}>
+          <FadeIn className={styles.photoColumn} delay={0.08} animatePosition={false}>
+            <div className={styles.photoWrap}>
               <Image
                 src="/images/profile/portrait-court.jpg"
                 alt="Виталий Унанян на баскетбольной площадке"
                 fill
-                sizes="112px"
-                className={styles.mePhoto}
+                sizes="(max-width: 960px) 112px, 451px"
+                className={styles.photo}
               />
             </div>
-            <div className={styles.meCaptionWrap}>
-              <span className={styles.meCurve} aria-hidden="true" />
-              <p className={styles.meCaption}>{aboutContent.photoCaption}</p>
+
+            <div className={styles.photoCaptionWrap}>
+              <span className={styles.photoCurve} aria-hidden="true" />
+              <p className={styles.photoCaption}>{aboutContent.photoCaption}</p>
             </div>
           </FadeIn>
-        </section>
 
-        <section className={styles.section} aria-labelledby="about-skills">
-          <FadeIn className={styles.textBlock} animatePosition={false}>
-            <h2 id="about-skills" className={styles.sectionTitle}>
+          <FadeIn className={styles.introSummary} delay={0.14} animatePosition={false}>
+            <p>{aboutContent.heroSummary}</p>
+          </FadeIn>
+        </header>
+
+        <section className={styles.section} aria-labelledby="about-skills-title">
+          <FadeIn className={styles.sectionHeader} animatePosition={false}>
+            <h2 id="about-skills-title" className={styles.sectionTitle}>
               {aboutContent.skillsTitle}
             </h2>
-            <p className={styles.sectionText}>{aboutContent.skillsText}</p>
+            <p className={styles.sectionDescription}>{aboutContent.skillsText}</p>
           </FadeIn>
 
-          <FadeIn className={styles.skillsScroller} delay={0.08} animatePosition={false}>
-            <div className={styles.skillsRow}>
-              {aboutContent.skills.map((skill) => (
-                <div key={`${skill.brand}-${skill.label}`} className={styles.skillItem}>
-                  <div className={styles.skillCard}>
-                    <span className={styles.skillBrand}>{skill.brand}</span>
-                  </div>
-                  <p className={styles.skillLabel}>{skill.label}</p>
-                </div>
-              ))}
-            </div>
+          <FadeIn className={styles.skillsList} delay={0.08} animatePosition={false}>
+            {aboutContent.skills.map((skill) => (
+              <p key={skill} className={styles.skillLine}>
+                {skill}
+              </p>
+            ))}
           </FadeIn>
         </section>
 
-        <section className={styles.section} aria-labelledby="about-experience">
-          <FadeIn className={styles.textBlock} animatePosition={false}>
-            <h2 id="about-experience" className={styles.sectionTitle}>
+        <section className={styles.section} aria-labelledby="about-experience-title">
+          <FadeIn className={styles.sectionHeader} animatePosition={false}>
+            <h2 id="about-experience-title" className={styles.sectionTitle}>
               {aboutContent.experienceTitle}
             </h2>
-            <p className={styles.sectionText}>{aboutContent.experienceText}</p>
+            <p className={styles.sectionDescription}>{aboutContent.experienceText}</p>
           </FadeIn>
         </section>
 
-        <section className={styles.section} aria-labelledby="about-media">
-          <FadeIn className={styles.textBlock} animatePosition={false}>
-            <h2 id="about-media" className={styles.sectionTitle}>
+        <section className={styles.section} aria-labelledby="about-media-title">
+          <FadeIn className={styles.sectionHeader} animatePosition={false}>
+            <h2 id="about-media-title" className={styles.sectionTitle}>
               {aboutContent.mediaTitle}
             </h2>
-            <p className={styles.sectionText}>{aboutContent.mediaText}</p>
+            <p className={styles.sectionDescription}>{aboutContent.mediaText}</p>
           </FadeIn>
 
           <FadeIn className={styles.socials} delay={0.08} animatePosition={false}>
