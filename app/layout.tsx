@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | Nix Portfolio"
   },
   description:
-    "Личное портфолио с сильной визуальной подачей, точной версткой по Figma и плавной анимацией."
+    "Виталий Унанян — продуктовый дизайнер. Кейсы, опыт и подход к проектированию цифровых продуктов."
 };
 
 export default function RootLayout({
