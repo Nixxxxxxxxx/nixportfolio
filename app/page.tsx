@@ -220,16 +220,13 @@ export default function HomePage() {
                   href="https://t.me/nix_ux_view"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Telegram канал"
+                  aria-label="Telegram канал @nix_ux_view"
                 >
-                  <span className={styles.socialIconFrame}>
+                  <span className={styles.socialItemIcon}>
                     <TelegramIcon />
                   </span>
-                  <span className={styles.socialChip} aria-hidden="true">
-                    <span className={styles.socialChipIcon}>
-                      <TelegramIcon />
-                    </span>
-                    <span className={styles.socialChipLabel}>@nix_ux_view</span>
+                  <span className={styles.socialItemLabel} aria-hidden="true">
+                    @nix_ux_view
                   </span>
                 </a>
                 <a
@@ -237,16 +234,13 @@ export default function HomePage() {
                   href="https://dsgners.ru/nixnix"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Dsgners"
+                  aria-label="Dsgners профиль"
                 >
-                  <span className={styles.socialIconFrame}>
+                  <span className={styles.socialItemIcon}>
                     <DprofileIcon />
                   </span>
-                  <span className={styles.socialChip} aria-hidden="true">
-                    <span className={styles.socialChipIcon}>
-                      <DprofileIcon />
-                    </span>
-                    <span className={styles.socialChipLabel}>Профиль</span>
+                  <span className={styles.socialItemLabel} aria-hidden="true">
+                    Профиль
                   </span>
                 </a>
                 <a
@@ -254,16 +248,13 @@ export default function HomePage() {
                   href="https://vc.ru/id4483143"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="VC.ru"
+                  aria-label="VC.ru профиль"
                 >
-                  <span className={styles.socialIconFrame}>
+                  <span className={styles.socialItemIcon}>
                     <VcRuIcon />
                   </span>
-                  <span className={styles.socialChip} aria-hidden="true">
-                    <span className={styles.socialChipIcon}>
-                      <VcRuIcon />
-                    </span>
-                    <span className={styles.socialChipLabel}>Профиль</span>
+                  <span className={styles.socialItemLabel} aria-hidden="true">
+                    Профиль
                   </span>
                 </a>
               </div>

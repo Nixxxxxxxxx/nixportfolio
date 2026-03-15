@@ -127,16 +127,13 @@ export default function AboutPage() {
               href={aboutContent.socialLinks.telegram}
               target="_blank"
               rel="noreferrer"
-              aria-label="Telegram"
+              aria-label="Telegram канал @nix_ux_view"
             >
-              <span className={styles.socialIconFrame}>
+              <span className={styles.socialItemIcon}>
                 <TelegramIcon />
               </span>
-              <span className={styles.socialChip} aria-hidden="true">
-                <span className={styles.socialChipIcon}>
-                  <TelegramIcon />
-                </span>
-                <span className={styles.socialChipLabel}>@nix_ux_view</span>
+              <span className={styles.socialItemLabel} aria-hidden="true">
+                @nix_ux_view
               </span>
             </a>
             <a
@@ -144,16 +141,13 @@ export default function AboutPage() {
               href={aboutContent.socialLinks.dprofile}
               target="_blank"
               rel="noreferrer"
-              aria-label="Dsgners"
+              aria-label="Dsgners профиль"
             >
-              <span className={styles.socialIconFrame}>
+              <span className={styles.socialItemIcon}>
                 <DprofileIcon />
               </span>
-              <span className={styles.socialChip} aria-hidden="true">
-                <span className={styles.socialChipIcon}>
-                  <DprofileIcon />
-                </span>
-                <span className={styles.socialChipLabel}>Профиль</span>
+              <span className={styles.socialItemLabel} aria-hidden="true">
+                Профиль
               </span>
             </a>
             <a
@@ -161,16 +155,13 @@ export default function AboutPage() {
               href={aboutContent.socialLinks.vc}
               target="_blank"
               rel="noreferrer"
-              aria-label="VC.ru"
+              aria-label="VC.ru профиль"
             >
-              <span className={styles.socialIconFrame}>
+              <span className={styles.socialItemIcon}>
                 <VcRuIcon />
               </span>
-              <span className={styles.socialChip} aria-hidden="true">
-                <span className={styles.socialChipIcon}>
-                  <VcRuIcon />
-                </span>
-                <span className={styles.socialChipLabel}>Профиль</span>
+              <span className={styles.socialItemLabel} aria-hidden="true">
+                Профиль
               </span>
             </a>
           </FadeIn>
