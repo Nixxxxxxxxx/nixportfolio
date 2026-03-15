@@ -208,19 +208,19 @@
 .socialTelegram {
   --icon-width: 40px;
   --icon-height: 40px;
-  --chip-width: 212px;
+  --chip-width: 248px;
 }
 
 .socialDprofile {
   --icon-width: 32px;
   --icon-height: 32px;
-  --chip-width: 150px;
+  --chip-width: 194px;
 }
 
 .socialVcru {
   --icon-width: 30px;
   --icon-height: 32px;
-  --chip-width: 148px;
+  --chip-width: 182px;
 }
 
 .socialSvg {

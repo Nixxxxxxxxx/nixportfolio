@@ -133,7 +133,7 @@ export default function AboutPage() {
                 <TelegramIcon />
               </span>
               <span className={styles.socialItemLabel} aria-hidden="true">
-                @nix_ux_view
+                Канал @nix_ux_view
               </span>
             </a>
             <a
@@ -141,13 +141,13 @@ export default function AboutPage() {
               href={aboutContent.socialLinks.dprofile}
               target="_blank"
               rel="noreferrer"
-              aria-label="Dsgners профиль"
+              aria-label="Профиль на Dsgners"
             >
               <span className={styles.socialItemIcon}>
                 <DprofileIcon />
               </span>
               <span className={styles.socialItemLabel} aria-hidden="true">
-                Профиль
+                Профиль Dsgners
               </span>
             </a>
             <a
@@ -155,13 +155,13 @@ export default function AboutPage() {
               href={aboutContent.socialLinks.vc}
               target="_blank"
               rel="noreferrer"
-              aria-label="VC.ru профиль"
+              aria-label="Профиль на VC.ru"
             >
               <span className={styles.socialItemIcon}>
                 <VcRuIcon />
               </span>
               <span className={styles.socialItemLabel} aria-hidden="true">
-                Профиль
+                Профиль VC.ru
               </span>
             </a>
           </FadeIn>
