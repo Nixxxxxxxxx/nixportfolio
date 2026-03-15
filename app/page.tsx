@@ -10,6 +10,8 @@ import styles from "./page.module.css";
 
 const HOME_ENTRY_MIN_DELAY_MS = 280;
 const HOME_ENTRY_MEDIA_FALLBACK_MS = 1600;
+const HERO_LOOP_START_OFFSET_S = 0.05;
+const HERO_LOOP_GUARD_S = 0.08;
 
 function TelegramIcon() {
   return (
@@ -112,6 +114,66 @@ export default function HomePage() {
     };
   }, [reduceMotion]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return undefined;
+    }
+
+    let isSeekingLoop = false;
+
+    const seekToLoopStart = () => {
+      if (isSeekingLoop) {
+        return;
+      }
+
+      isSeekingLoop = true;
+      video.currentTime = HERO_LOOP_START_OFFSET_S;
+      const playPromise = video.play();
+
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {
+          // Ignore autoplay restrictions; video may need explicit user gesture.
+        });
+      }
+
+      window.requestAnimationFrame(() => {
+        isSeekingLoop = false;
+      });
+    };
+
+    const handleLoadedMetadata = () => {
+      if (video.currentTime < HERO_LOOP_START_OFFSET_S) {
+        video.currentTime = HERO_LOOP_START_OFFSET_S;
+      }
+    };
+
+    const handleTimeUpdate = () => {
+      if (!video.duration || Number.isNaN(video.duration)) {
+        return;
+      }
+
+      if (video.currentTime >= video.duration - HERO_LOOP_GUARD_S) {
+        seekToLoopStart();
+      }
+    };
+
+    const handleEnded = () => {
+      seekToLoopStart();
+    };
+
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("ended", handleEnded);
+
+    return () => {
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
   const entryClassNames = (stageClassName: string) =>
     [styles.entryItem, stageClassName, entryReady ? styles.entryReady : ""]
       .filter(Boolean)
@@ -134,7 +196,6 @@ export default function HomePage() {
                     className={styles.video}
                     src="/videos/home/hero.mp4"
                     autoPlay
-                    loop
                     muted
                     playsInline
                     preload="auto"
