@@ -136,7 +136,7 @@ export default function AboutPage() {
                 <span className={styles.socialChipIcon}>
                   <TelegramIcon />
                 </span>
-                <span className={styles.socialChipLabel}>Telegram</span>
+                <span className={styles.socialChipLabel}>@nix_ux_view</span>
               </span>
             </a>
             <a
@@ -153,7 +153,7 @@ export default function AboutPage() {
                 <span className={styles.socialChipIcon}>
                   <DprofileIcon />
                 </span>
-                <span className={styles.socialChipLabel}>Dsgners</span>
+                <span className={styles.socialChipLabel}>Профиль</span>
               </span>
             </a>
             <a
@@ -170,7 +170,7 @@ export default function AboutPage() {
                 <span className={styles.socialChipIcon}>
                   <VcRuIcon />
                 </span>
-                <span className={styles.socialChipLabel}>VC.ru</span>
+                <span className={styles.socialChipLabel}>Профиль</span>
               </span>
             </a>
           </FadeIn>
