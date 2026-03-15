@@ -222,7 +222,15 @@ export default function HomePage() {
                   rel="noreferrer"
                   aria-label="Telegram канал"
                 >
-                  <TelegramIcon />
+                  <span className={styles.socialIconFrame}>
+                    <TelegramIcon />
+                  </span>
+                  <span className={styles.socialChip} aria-hidden="true">
+                    <span className={styles.socialChipIcon}>
+                      <TelegramIcon />
+                    </span>
+                    <span className={styles.socialChipLabel}>Telegram</span>
+                  </span>
                 </a>
                 <a
                   className={`${styles.socialItem} ${styles.socialDprofile}`}
@@ -231,7 +239,15 @@ export default function HomePage() {
                   rel="noreferrer"
                   aria-label="Dsgners"
                 >
-                  <DprofileIcon />
+                  <span className={styles.socialIconFrame}>
+                    <DprofileIcon />
+                  </span>
+                  <span className={styles.socialChip} aria-hidden="true">
+                    <span className={styles.socialChipIcon}>
+                      <DprofileIcon />
+                    </span>
+                    <span className={styles.socialChipLabel}>Dsgners</span>
+                  </span>
                 </a>
                 <a
                   className={`${styles.socialItem} ${styles.socialVcru}`}
@@ -240,7 +256,15 @@ export default function HomePage() {
                   rel="noreferrer"
                   aria-label="VC.ru"
                 >
-                  <VcRuIcon />
+                  <span className={styles.socialIconFrame}>
+                    <VcRuIcon />
+                  </span>
+                  <span className={styles.socialChip} aria-hidden="true">
+                    <span className={styles.socialChipIcon}>
+                      <VcRuIcon />
+                    </span>
+                    <span className={styles.socialChipLabel}>VC.ru</span>
+                  </span>
                 </a>
               </div>
             </div>

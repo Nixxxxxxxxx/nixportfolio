@@ -62,13 +62,13 @@
 
 .layout {
   display: grid;
-  grid-template-columns: 217px 738px;
+  grid-template-columns: 236px 738px;
   align-items: start;
   column-gap: 108px;
 }
 
 .contactColumn {
-  width: 217px;
+  width: 236px;
 }
 
 .contactCard {
@@ -125,6 +125,7 @@
 }
 
 .contactValue,
+.contactValueAction,
 .contactValueLink {
   margin: 0;
   color: #101214;
@@ -132,6 +133,7 @@
   line-height: 1.36;
   font-weight: 500;
   font-family: var(--font-sans);
+  white-space: nowrap;
 }
 
 .contactValueLink {
@@ -142,10 +144,17 @@
   transition: opacity 220ms var(--ease-standard);
 }
 
+.contactValueAction {
+  text-decoration: none;
+  transition: opacity 220ms var(--ease-standard);
+}
+
+.contactValueAction:hover,
 .contactValueLink:hover {
   opacity: 0.74;
 }
 
+.contactValueAction:focus-visible,
 .contactValueLink:focus-visible {
   outline: 2px solid rgba(0, 115, 236, 0.35);
   outline-offset: 4px;
@@ -412,7 +421,7 @@
   }
 
   .layout {
-    grid-template-columns: 217px minmax(0, 1fr);
+    grid-template-columns: 236px minmax(0, 1fr);
     column-gap: 56px;
   }
 
@@ -585,6 +594,12 @@
   .contactCard {
     padding: 20px 16px;
     border-radius: 18px;
+  }
+
+  .contactValueAction,
+  .contactValueLink {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .name > span:first-child {

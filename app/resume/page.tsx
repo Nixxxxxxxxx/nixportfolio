@@ -107,6 +107,10 @@ function ExperienceBadge({ badge }: { badge: ResumeBadge }) {
 }
 
 export default function ResumePage() {
+  const phoneHref = `tel:${resumeData.contacts.phone.replace(/[^\d+]/g, "")}`;
+  const telegramUserUrl = `https://t.me/${resumeData.contacts.telegram.replace("@", "")}`;
+  const telegramChannelUrl = `https://t.me/${resumeData.contacts.channel.replace("@", "")}`;
+
   return (
     <main className={styles.page}>
       <div className={styles.canvas}>
@@ -142,19 +146,35 @@ export default function ResumePage() {
 
                   <div className={styles.contactRow}>
                     <p className={styles.contactLabel}>Телефон</p>
-                    <p className={styles.contactValue}>{resumeData.contacts.phone}</p>
+                    <a className={styles.contactValueAction} href={phoneHref}>
+                      {resumeData.contacts.phone}
+                    </a>
                   </div>
 
                   <div className={styles.contactRow}>
                     <p className={styles.contactLabel}>Telegram</p>
-                    <p className={styles.contactValue}>{resumeData.contacts.telegram}</p>
+                    <a
+                      className={styles.contactValueAction}
+                      href={telegramUserUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {resumeData.contacts.telegram}
+                    </a>
                   </div>
 
                   <div className={styles.separator} />
 
                   <div className={styles.contactRow}>
                     <p className={styles.contactLabel}>Telegram канал</p>
-                    <p className={styles.contactValue}>{resumeData.contacts.channel}</p>
+                    <a
+                      className={styles.contactValueAction}
+                      href={telegramChannelUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {resumeData.contacts.channel}
+                    </a>
                   </div>
                 </div>
               </div>
@@ -162,7 +182,7 @@ export default function ResumePage() {
               <div className={styles.contactBottom}>
                 <a
                   className={styles.contactValueLink}
-                  href={`https://t.me/${resumeData.contacts.telegram.replace("@", "")}`}
+                  href={telegramUserUrl}
                   target="_blank"
                   rel="noreferrer"
                 >
