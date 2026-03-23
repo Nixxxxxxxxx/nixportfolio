@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -18,7 +18,6 @@ const HOME_ENTRY_MEDIA_FALLBACK_MS = 1600;
 const HERO_LOOP_START_OFFSET_S = 0.05;
 const HERO_LOOP_GUARD_S = 0.08;
 const HOME_CASE_METRIC_LIMIT = 2;
-const HOME_CASE_SCROLL_SVH_PER_SLIDE = 56;
 
 type HomeCaseSlide = {
   slug: string;
@@ -103,12 +102,11 @@ function HomeCasePreview({
 export default function HomePage() {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const casesTrackRef = useRef<HTMLDivElement | null>(null);
+  const caseRowRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const caseCursorRef = useRef<HTMLSpanElement | null>(null);
 
   const [entryReady, setEntryReady] = useState(false);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
-  const [desktopCaseProgress, setDesktopCaseProgress] = useState(0);
   const [isDesktopCases, setIsDesktopCases] = useState(false);
   const [hasPointerCursor, setHasPointerCursor] = useState(false);
   const [isCursorVisible, setIsCursorVisible] = useState(false);
@@ -251,7 +249,6 @@ export default function HomePage() {
   useEffect(() => {
     if (!isDesktopCases) {
       setActiveCaseIndex(0);
-      setDesktopCaseProgress(0);
       return undefined;
     }
 
@@ -259,36 +256,28 @@ export default function HomePage() {
 
     const updateCaseIndex = () => {
       rafId = 0;
+      const viewportCenter = window.innerHeight / 2;
+      let nextIndex = 0;
+      let minDistance = Number.POSITIVE_INFINITY;
 
-      const track = casesTrackRef.current;
+      caseRowRefs.current.forEach((row, index) => {
+        if (!row) {
+          return;
+        }
 
-      if (!track) {
+        const bounds = row.getBoundingClientRect();
+        const rowCenter = bounds.top + bounds.height / 2;
+        const distance = Math.abs(rowCenter - viewportCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          nextIndex = index;
+        }
+      });
+
+      if (!caseRowRefs.current.length) {
         return;
       }
-
-      const scrolled = Math.max(0, -track.getBoundingClientRect().top);
-      const step = (window.innerHeight * HOME_CASE_SCROLL_SVH_PER_SLIDE) / 100;
-
-      if (step <= 0) {
-        setActiveCaseIndex(0);
-        setDesktopCaseProgress(0);
-        return;
-      }
-
-      const nextProgress = Math.min(
-        homeCaseSlides.length - 1,
-        scrolled / step
-      );
-      const nextIndex = Math.min(
-        homeCaseSlides.length - 1,
-        Math.round(nextProgress)
-      );
-
-      setDesktopCaseProgress((currentProgress) =>
-        Math.abs(currentProgress - nextProgress) < 0.001
-          ? currentProgress
-          : nextProgress
-      );
 
       setActiveCaseIndex((currentIndex) =>
         currentIndex === nextIndex ? currentIndex : nextIndex
@@ -322,40 +311,23 @@ export default function HomePage() {
     setIsCursorVisible(false);
   }, [activeCaseIndex]);
 
-  const activeCase = homeCaseSlides[activeCaseIndex];
-
   const entryClassNames = (stageClassName: string) =>
     [styles.entryItem, stageClassName, entryReady ? styles.entryReady : ""]
       .filter(Boolean)
       .join(" ");
 
-  const desktopTrackStyle: CSSProperties = {
-    height: `calc(100svh + ${(homeCaseSlides.length - 1) * HOME_CASE_SCROLL_SVH_PER_SLIDE}svh)`
-  };
-
   const revealDelayClassName = entryClassNames(styles.entryCases);
 
   const handleDotClick = (index: number) => {
-    const track = casesTrackRef.current;
+    const row = caseRowRefs.current[index];
 
-    if (!track) {
+    if (!row) {
       return;
     }
 
-    const sectionTop = window.scrollY + track.getBoundingClientRect().top;
-    const step = (window.innerHeight * HOME_CASE_SCROLL_SVH_PER_SLIDE) / 100;
-
-    if (step <= 0) {
-      window.scrollTo({
-        top: sectionTop,
-        behavior: reduceMotion ? "auto" : "smooth"
-      });
-      return;
-    }
-
-    window.scrollTo({
-      top: sectionTop + step * index,
-      behavior: reduceMotion ? "auto" : "smooth"
+    row.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start"
     });
   };
 
@@ -422,64 +394,58 @@ export default function HomePage() {
             Кейсы
           </h2>
 
-          <div ref={casesTrackRef} className={styles.desktopCasesTrack} style={desktopTrackStyle}>
-            <div className={styles.desktopCasesSticky}>
-              <div className={styles.desktopCaseLayout}>
+          <div className={styles.desktopCaseFlow}>
+            <div className={styles.desktopCaseRows}>
+              {homeCaseSlides.map((slide, index) => (
                 <Link
-                  href={activeCase.href}
+                  key={slide.slug}
+                  href={slide.href}
+                  ref={(node) => {
+                    caseRowRefs.current[index] = node;
+                  }}
                   className={[
                     styles.desktopCaseLink,
+                    styles.desktopCaseRowLink,
                     hasPointerCursor ? styles.desktopCaseLinkCursor : ""
                   ]
                     .filter(Boolean)
                     .join(" ")}
-                  aria-label={`${activeCase.title}. ${activeCase.summary}`}
+                  aria-label={`${slide.title}. ${slide.summary}`}
                   onMouseMove={handleCasePointerMove}
                   onMouseLeave={hideCaseCursor}
                 >
-                  <div className={styles.desktopCaseViewport}>
-                    <div
-                      className={styles.desktopCaseStack}
-                      style={{
-                        transform: `translateY(-${desktopCaseProgress * 100}%)`
-                      }}
-                    >
-                      {homeCaseSlides.map((slide, index) => (
-                        <article key={slide.slug} className={styles.desktopCaseSlide}>
-                      <div className={styles.caseNarrative}>
-                        <div className={styles.caseIntro}>
-                          <p className={styles.caseKicker}>{slide.title}</p>
-                          <p className={styles.caseSummary}>{slide.summary}</p>
-                        </div>
-
-                        <div className={styles.caseMetrics}>
-                          {slide.metrics.map((metric) => (
-                            <div key={metric.label} className={styles.caseMetric}>
-                              <p className={styles.caseMetricLabel}>{metric.label}</p>
-                              <p className={styles.caseMetricValue}>{metric.value}</p>
-                            </div>
-                          ))}
-                        </div>
+                  <article className={styles.desktopCaseSlide}>
+                    <div className={styles.caseNarrative}>
+                      <div className={styles.caseIntro}>
+                        <p className={styles.caseKicker}>{slide.title}</p>
+                        <p className={styles.caseSummary}>{slide.summary}</p>
                       </div>
 
-                      <div className={styles.casePreviewGrid}>
-                        <HomeCasePreview
-                          address={slide.browserAddress}
-                          asset={slide.before}
-                          priority={index === 0}
-                        />
-                        <HomeCasePreview
-                          address={slide.browserAddress}
-                          asset={slide.after}
-                          priority={index === 0}
-                        />
+                      <div className={styles.caseMetrics}>
+                        {slide.metrics.map((metric) => (
+                          <div key={metric.label} className={styles.caseMetric}>
+                            <p className={styles.caseMetricLabel}>{metric.label}</p>
+                            <p className={styles.caseMetricValue}>{metric.value}</p>
+                          </div>
+                        ))}
                       </div>
-                    </article>
-                      ))}
                     </div>
-                  </div>
 
-                  {hasPointerCursor ? (
+                    <div className={styles.casePreviewGrid}>
+                      <HomeCasePreview
+                        address={slide.browserAddress}
+                        asset={slide.before}
+                        priority={index === 0}
+                      />
+                      <HomeCasePreview
+                        address={slide.browserAddress}
+                        asset={slide.after}
+                        priority={index === 0}
+                      />
+                    </div>
+                  </article>
+
+                  {hasPointerCursor && index === activeCaseIndex ? (
                     <span
                       ref={caseCursorRef}
                       className={[
@@ -494,24 +460,26 @@ export default function HomePage() {
                     </span>
                   ) : null}
                 </Link>
+              ))}
+            </div>
 
-                <div className={styles.caseDots} aria-label="Навигация по кейсам">
-                  {homeCaseSlides.map((slide, index) => (
-                    <button
-                      key={slide.slug}
-                      type="button"
-                      className={[
-                        styles.caseDot,
-                        index === activeCaseIndex ? styles.caseDotActive : ""
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      aria-label={`Показать кейс ${index + 1}`}
-                      aria-pressed={index === activeCaseIndex}
-                      onClick={() => handleDotClick(index)}
-                    />
-                  ))}
-                </div>
+            <div className={styles.desktopCaseDotsRail}>
+              <div className={styles.caseDots} aria-label="Навигация по кейсам">
+                {homeCaseSlides.map((slide, index) => (
+                  <button
+                    key={slide.slug}
+                    type="button"
+                    className={[
+                      styles.caseDot,
+                      index === activeCaseIndex ? styles.caseDotActive : ""
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    aria-label={`Показать кейс ${index + 1}`}
+                    aria-pressed={index === activeCaseIndex}
+                    onClick={() => handleDotClick(index)}
+                  />
+                ))}
               </div>
             </div>
           </div>
