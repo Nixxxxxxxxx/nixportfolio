@@ -108,6 +108,7 @@ export default function HomePage() {
 
   const [entryReady, setEntryReady] = useState(false);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
+  const [desktopCaseProgress, setDesktopCaseProgress] = useState(0);
   const [isDesktopCases, setIsDesktopCases] = useState(false);
   const [hasPointerCursor, setHasPointerCursor] = useState(false);
   const [isCursorVisible, setIsCursorVisible] = useState(false);
@@ -250,6 +251,7 @@ export default function HomePage() {
   useEffect(() => {
     if (!isDesktopCases) {
       setActiveCaseIndex(0);
+      setDesktopCaseProgress(0);
       return undefined;
     }
 
@@ -269,12 +271,23 @@ export default function HomePage() {
 
       if (step <= 0) {
         setActiveCaseIndex(0);
+        setDesktopCaseProgress(0);
         return;
       }
 
+      const nextProgress = Math.min(
+        homeCaseSlides.length - 1,
+        scrolled / step
+      );
       const nextIndex = Math.min(
         homeCaseSlides.length - 1,
-        Math.floor(scrolled / step)
+        Math.round(nextProgress)
+      );
+
+      setDesktopCaseProgress((currentProgress) =>
+        Math.abs(currentProgress - nextProgress) < 0.001
+          ? currentProgress
+          : nextProgress
       );
 
       setActiveCaseIndex((currentIndex) =>
@@ -426,14 +439,9 @@ export default function HomePage() {
                 >
                   <div className={styles.desktopCaseViewport}>
                     <div
-                      className={[
-                        styles.desktopCaseStack,
-                        reduceMotion ? styles.desktopCaseStackReducedMotion : ""
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
+                      className={styles.desktopCaseStack}
                       style={{
-                        transform: `translateY(-${activeCaseIndex * 100}%)`
+                        transform: `translateY(-${desktopCaseProgress * 100}%)`
                       }}
                     >
                       {homeCaseSlides.map((slide, index) => (
