@@ -8,14 +8,29 @@
   pointer-events: auto;
 }
 
+.dockTop {
+  top: 24px;
+  bottom: auto;
+}
+
 @media (max-width: 768px) {
   .dock {
     bottom: max(28px, calc(var(--safe-bottom) + 14px));
+  }
+
+  .dockTop {
+    top: 16px;
+    bottom: auto;
   }
 }
 
 @media (max-width: 480px) {
   .dock {
     bottom: max(20px, calc(var(--safe-bottom) + 10px));
+  }
+
+  .dockTop {
+    top: 12px;
+    bottom: auto;
   }
 }

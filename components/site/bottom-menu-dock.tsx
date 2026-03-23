@@ -5,12 +5,20 @@ import styles from "./bottom-menu-dock.module.css";
 
 type BottomMenuDockProps = {
   className?: string;
+  placement?: "bottom" | "top";
 };
 
-export function BottomMenuDock({ className }: BottomMenuDockProps) {
+export function BottomMenuDock({
+  className,
+  placement = "bottom"
+}: BottomMenuDockProps) {
   return (
     <div
-      className={[styles.dock, className ?? ""]
+      className={[
+        styles.dock,
+        placement === "top" ? styles.dockTop : "",
+        className ?? ""
+      ]
         .filter(Boolean)
         .join(" ")}
     >

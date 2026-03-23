@@ -419,7 +419,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        <BottomMenuDock className={entryClassNames(styles.homeDock)} />
+        <BottomMenuDock
+          placement="top"
+          className={entryClassNames(styles.homeDock)}
+        />
 
         <section
           id="cases"
