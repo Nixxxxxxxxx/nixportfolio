@@ -8,9 +8,9 @@ export const yandexOnlineExamCaseStudy: CaseStudyData = {
     before: {
       src: "/images/cases/yandex-online-exam/home-before.jpg",
       alt: "Homepage preview экрана результатов экзамена в Yandex LMS",
-      fit: "contain",
+      fit: "cover",
       background: "#ffffff",
-      position: "center center"
+      position: "center top"
     },
     after: {
       src: "/images/cases/yandex-online-exam/home-after.png",

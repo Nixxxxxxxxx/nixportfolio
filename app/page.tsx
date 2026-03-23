@@ -4,7 +4,7 @@ import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
 import { caseStudies } from "@/content/cases";
@@ -51,24 +51,6 @@ const homeCaseSlides: readonly HomeCaseSlide[] = caseStudies.map((study) => ({
   before: study.homepagePreview?.before ?? study.assets.before,
   after: study.homepagePreview?.after ?? study.assets.after
 }));
-
-const caseMotionVariants = {
-  initial: { opacity: 0 },
-  animate: {
-    opacity: 1,
-    transition: {
-      duration: 0.28,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  },
-  exit: {
-    opacity: 0,
-    transition: {
-      duration: 0.18,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
-} as const;
 
 function HomeCasePreview({
   address,
@@ -282,20 +264,17 @@ export default function HomePage() {
         return;
       }
 
-      const totalScrollable = track.offsetHeight - window.innerHeight;
+      const scrolled = Math.max(0, -track.getBoundingClientRect().top);
+      const step = (window.innerHeight * HOME_CASE_SCROLL_SVH_PER_SLIDE) / 100;
 
-      if (totalScrollable <= 0) {
+      if (step <= 0) {
         setActiveCaseIndex(0);
         return;
       }
 
-      const progress = Math.min(
-        0.9999,
-        Math.max(0, -track.getBoundingClientRect().top / totalScrollable)
-      );
       const nextIndex = Math.min(
         homeCaseSlides.length - 1,
-        Math.floor(progress * homeCaseSlides.length)
+        Math.floor(scrolled / step)
       );
 
       setActiveCaseIndex((currentIndex) =>
@@ -351,9 +330,9 @@ export default function HomePage() {
     }
 
     const sectionTop = window.scrollY + track.getBoundingClientRect().top;
-    const totalScrollable = track.offsetHeight - window.innerHeight;
+    const step = (window.innerHeight * HOME_CASE_SCROLL_SVH_PER_SLIDE) / 100;
 
-    if (totalScrollable <= 0) {
+    if (step <= 0) {
       window.scrollTo({
         top: sectionTop,
         behavior: reduceMotion ? "auto" : "smooth"
@@ -361,11 +340,8 @@ export default function HomePage() {
       return;
     }
 
-    const step = totalScrollable / homeCaseSlides.length;
-    const offset = index === homeCaseSlides.length - 1 ? totalScrollable : step * index;
-
     window.scrollTo({
-      top: sectionTop + offset,
+      top: sectionTop + step * index,
       behavior: reduceMotion ? "auto" : "smooth"
     });
   };
@@ -448,23 +424,28 @@ export default function HomePage() {
                   onMouseMove={handleCasePointerMove}
                   onMouseLeave={hideCaseCursor}
                 >
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.article
-                      key={activeCase.slug}
-                      className={styles.desktopCaseSlide}
-                      initial={reduceMotion ? undefined : "initial"}
-                      animate="animate"
-                      exit={reduceMotion ? undefined : "exit"}
-                      variants={reduceMotion ? undefined : caseMotionVariants}
+                  <div className={styles.desktopCaseViewport}>
+                    <div
+                      className={[
+                        styles.desktopCaseStack,
+                        reduceMotion ? styles.desktopCaseStackReducedMotion : ""
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      style={{
+                        transform: `translateY(-${activeCaseIndex * 100}%)`
+                      }}
                     >
+                      {homeCaseSlides.map((slide, index) => (
+                        <article key={slide.slug} className={styles.desktopCaseSlide}>
                       <div className={styles.caseNarrative}>
                         <div className={styles.caseIntro}>
-                          <p className={styles.caseKicker}>{activeCase.title}</p>
-                          <p className={styles.caseSummary}>{activeCase.summary}</p>
+                          <p className={styles.caseKicker}>{slide.title}</p>
+                          <p className={styles.caseSummary}>{slide.summary}</p>
                         </div>
 
                         <div className={styles.caseMetrics}>
-                          {activeCase.metrics.map((metric) => (
+                          {slide.metrics.map((metric) => (
                             <div key={metric.label} className={styles.caseMetric}>
                               <p className={styles.caseMetricLabel}>{metric.label}</p>
                               <p className={styles.caseMetricValue}>{metric.value}</p>
@@ -475,18 +456,20 @@ export default function HomePage() {
 
                       <div className={styles.casePreviewGrid}>
                         <HomeCasePreview
-                          address={activeCase.browserAddress}
-                          asset={activeCase.before}
-                          priority={activeCaseIndex === 0}
+                          address={slide.browserAddress}
+                          asset={slide.before}
+                          priority={index === 0}
                         />
                         <HomeCasePreview
-                          address={activeCase.browserAddress}
-                          asset={activeCase.after}
-                          priority={activeCaseIndex === 0}
+                          address={slide.browserAddress}
+                          asset={slide.after}
+                          priority={index === 0}
                         />
                       </div>
-                    </motion.article>
-                  </AnimatePresence>
+                    </article>
+                      ))}
+                    </div>
+                  </div>
 
                   {hasPointerCursor ? (
                     <span
