@@ -7,6 +7,22 @@ export const hrlinkNewsFeedCaseStudy: CaseStudyData = {
   showTaskFlow: false,
   comparisonLabel: "Ключевые экраны",
   comparisonLayout: "portrait",
+  homepagePreview: {
+    before: {
+      src: "/images/cases/hrlink-news-feed/home-before.jpg",
+      alt: "Homepage preview новостной ленты HrLink",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    },
+    after: {
+      src: "/images/cases/hrlink-news-feed/home-after.jpg",
+      alt: "Homepage preview аналитического модального экрана в HrLink",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    }
+  },
   indexCard: {
     title: "HrLink: новостная лента",
     summary:

@@ -4,6 +4,22 @@ export const yandexOnlineExamCaseStudy: CaseStudyData = {
   slug: "yandex-online-exam",
   browserAddress: "Yandex.ru",
   showBrowserChrome: false,
+  homepagePreview: {
+    before: {
+      src: "/images/cases/yandex-online-exam/home-before.jpg",
+      alt: "Homepage preview экрана результатов экзамена в Yandex LMS",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    },
+    after: {
+      src: "/images/cases/yandex-online-exam/home-after.png",
+      alt: "Homepage preview экрана старта сертификации в Yandex LMS",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    }
+  },
   indexCard: {
     title: "Yandex LMS: Online Exam",
     summary:

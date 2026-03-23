@@ -6,6 +6,22 @@ export const hrlinkNewsEditorCaseStudy: CaseStudyData = {
   showBrowserChrome: false,
   showTaskFlow: false,
   comparisonLabel: "Ключевые экраны",
+  homepagePreview: {
+    before: {
+      src: "/images/cases/hrlink-news-editor/home-before.jpg",
+      alt: "Homepage preview списка новостей и фильтров в HrLink",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    },
+    after: {
+      src: "/images/cases/hrlink-news-editor/home-after.jpg",
+      alt: "Homepage preview редактора новости и настроек аудитории в HrLink",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    }
+  },
   indexCard: {
     title: "HrLink: редактор новостей",
     summary:

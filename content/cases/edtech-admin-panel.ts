@@ -3,6 +3,22 @@ import type { CaseStudyData } from "./types";
 export const edtechAdminPanelCaseStudy: CaseStudyData = {
   slug: "edtech-admin-panel",
   browserAddress: "Yandex.ru",
+  homepagePreview: {
+    before: {
+      src: "/images/cases/edtech-admin-panel/home-before.jpg",
+      alt: "Homepage preview первого экрана редактора курса в EdTech Admin Panel",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    },
+    after: {
+      src: "/images/cases/edtech-admin-panel/home-after.png",
+      alt: "Homepage preview экрана структуры курса в EdTech Admin Panel",
+      fit: "contain",
+      background: "#ffffff",
+      position: "center center"
+    }
+  },
   indexCard: {
     title: "EdTech Admin Panel",
     summary:

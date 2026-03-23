@@ -64,6 +64,10 @@ export type CaseStudyData = {
   showTaskFlow?: boolean;
   comparisonLabel?: string;
   comparisonLayout?: "default" | "portrait";
+  homepagePreview?: {
+    before: CaseImageAsset;
+    after: CaseImageAsset;
+  };
   indexCard: {
     title: string;
     summary: string;

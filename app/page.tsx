@@ -48,8 +48,8 @@ const homeCaseSlides: readonly HomeCaseSlide[] = caseStudies.map((study) => ({
   summary: study.indexCard.summary,
   metrics: getHomeCaseMetrics(study),
   browserAddress: study.browserAddress,
-  before: study.assets.before,
-  after: study.assets.after
+  before: study.homepagePreview?.before ?? study.assets.before,
+  after: study.homepagePreview?.after ?? study.assets.after
 }));
 
 const caseMotionVariants = {
