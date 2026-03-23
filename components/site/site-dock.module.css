@@ -1,0 +1,165 @@
+.dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.navSegment,
+.socialSegment {
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
+  background: #f5f5f5;
+  color: #000000;
+}
+
+.navSegment {
+  gap: 24px;
+  padding: 0 24px;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-size: 14px;
+  line-height: 28px;
+  letter-spacing: 0;
+  font-weight: 400;
+  transition: opacity 220ms var(--ease-standard);
+}
+
+.navLink:hover {
+  opacity: 0.62;
+}
+
+.navLink:focus-visible {
+  outline: 2px solid rgba(0, 115, 236, 0.35);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.socialSegment {
+  gap: 24px;
+  padding: 0 24px;
+}
+
+.socialLink {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  transition:
+    opacity 220ms var(--ease-standard),
+    transform 220ms var(--ease-standard);
+}
+
+.socialLink:hover {
+  opacity: 0.72;
+  transform: translateY(-1px);
+}
+
+.socialLink:focus-visible {
+  outline: 2px solid rgba(0, 115, 236, 0.35);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+.socialTooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translate(-50%, 8px);
+  z-index: 2;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(16, 18, 20, 0.1);
+  color: #101214;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 220ms var(--ease-standard),
+    transform 220ms var(--ease-standard);
+}
+
+.socialLink:hover .socialTooltip,
+.socialLink:focus-visible .socialTooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.socialIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.socialSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 820px) {
+  .dock {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .navSegment {
+    width: min(344px, calc(100vw - 24px));
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 18px;
+  }
+
+  .socialSegment {
+    gap: 20px;
+    padding: 0 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navSegment,
+  .socialSegment {
+    min-height: 52px;
+  }
+
+  .navSegment {
+    width: min(344px, calc(100vw - 20px));
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .navLink {
+    font-size: 13px;
+    line-height: 24px;
+  }
+
+  .socialSegment {
+    gap: 18px;
+    padding: 0 18px;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .socialTooltip {
+    display: none;
+  }
+}

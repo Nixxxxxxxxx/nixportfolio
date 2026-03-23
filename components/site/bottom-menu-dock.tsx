@@ -1,6 +1,6 @@
 "use client";
 
-import { SiteMenu } from "./site-menu";
+import { SiteDock } from "./site-dock";
 import styles from "./bottom-menu-dock.module.css";
 
 type BottomMenuDockProps = {
@@ -14,7 +14,7 @@ export function BottomMenuDock({ className }: BottomMenuDockProps) {
         .filter(Boolean)
         .join(" ")}
     >
-      <SiteMenu placement="above" align="center" />
+      <SiteDock />
     </div>
   );
 }
