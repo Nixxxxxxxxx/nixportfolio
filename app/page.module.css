@@ -128,8 +128,8 @@
 }
 
 .desktopCaseRowLink {
-  height: 500px;
-  min-height: 500px;
+  height: max(500px, calc(100svh - 112px));
+  min-height: max(500px, calc(100svh - 112px));
   display: flex;
   align-items: center;
   scroll-margin-top: 112px;
