@@ -19,9 +19,6 @@ const HERO_LOOP_START_OFFSET_S = 0.05;
 const HERO_LOOP_GUARD_S = 0.08;
 const HOME_CASE_METRIC_LIMIT = 2;
 const HOME_CASE_SNAP_TOP_OFFSET_PX = 112;
-const HOME_CASE_SNAP_TOLERANCE_PX = 32;
-const HOME_CASE_WHEEL_IDLE_MS = 220;
-const HOME_CASE_SNAP_SCROLL_MS = 560;
 
 type HomeCaseSlide = {
   slug: string;
@@ -106,16 +103,10 @@ function HomeCasePreview({
 export default function HomePage() {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const casesSectionRef = useRef<HTMLElement | null>(null);
   const caseRowRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const caseCursorRef = useRef<HTMLSpanElement | null>(null);
   const cursorPositionRef = useRef({ x: 0, y: 0 });
   const cursorFrameRef = useRef(0);
-  const snapAnimationFrameRef = useRef(0);
-  const wheelGestureTimeoutRef = useRef<number | null>(null);
-  const snapLockRef = useRef(false);
-  const wheelGestureLockRef = useRef(false);
-  const activeCaseIndexRef = useRef(0);
 
   const [entryReady, setEntryReady] = useState(false);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
@@ -146,37 +137,6 @@ export default function HomePage() {
     });
   }, []);
 
-  const clearSnapLock = useCallback(() => {
-    snapLockRef.current = false;
-
-    if (snapAnimationFrameRef.current) {
-      window.cancelAnimationFrame(snapAnimationFrameRef.current);
-      snapAnimationFrameRef.current = 0;
-    }
-  }, []);
-
-  const clearWheelGestureLock = useCallback(() => {
-    wheelGestureLockRef.current = false;
-
-    if (wheelGestureTimeoutRef.current) {
-      window.clearTimeout(wheelGestureTimeoutRef.current);
-      wheelGestureTimeoutRef.current = null;
-    }
-  }, []);
-
-  const keepWheelGestureLocked = useCallback(() => {
-    wheelGestureLockRef.current = true;
-
-    if (wheelGestureTimeoutRef.current) {
-      window.clearTimeout(wheelGestureTimeoutRef.current);
-    }
-
-    wheelGestureTimeoutRef.current = window.setTimeout(() => {
-      wheelGestureLockRef.current = false;
-      wheelGestureTimeoutRef.current = null;
-    }, HOME_CASE_WHEEL_IDLE_MS);
-  }, []);
-
   const getClosestCaseIndex = useCallback(() => {
     if (!caseRowRefs.current.length) {
       return null;
@@ -202,74 +162,6 @@ export default function HomePage() {
 
     return nextIndex;
   }, []);
-
-  const getCaseTargetTop = useCallback((index: number) => {
-    const row = caseRowRefs.current[index];
-
-    if (!row) {
-      return null;
-    }
-
-    return window.scrollY + row.getBoundingClientRect().top - HOME_CASE_SNAP_TOP_OFFSET_PX;
-  }, []);
-
-  const scrollToCaseIndex = useCallback(
-    (index: number) => {
-      const targetTop = getCaseTargetTop(index);
-
-      if (targetTop === null) {
-        return;
-      }
-
-      hideCaseCursor();
-      clearSnapLock();
-
-      snapLockRef.current = true;
-      activeCaseIndexRef.current = index;
-      setActiveCaseIndex(index);
-
-      if (reduceMotion) {
-        window.scrollTo({ top: targetTop, behavior: "auto" });
-        snapLockRef.current = false;
-        return;
-      }
-
-      const startTop = window.scrollY;
-      const distance = targetTop - startTop;
-
-      if (Math.abs(distance) < 1) {
-        snapLockRef.current = false;
-        return;
-      }
-
-      const startTime = performance.now();
-
-      const step = (timestamp: number) => {
-        const progress = Math.min(
-          1,
-          (timestamp - startTime) / HOME_CASE_SNAP_SCROLL_MS
-        );
-        const easedProgress = 1 - Math.pow(1 - progress, 3);
-
-        window.scrollTo({
-          top: startTop + distance * easedProgress,
-          behavior: "auto"
-        });
-
-        if (progress < 1) {
-          snapAnimationFrameRef.current = window.requestAnimationFrame(step);
-          return;
-        }
-
-        snapAnimationFrameRef.current = 0;
-        snapLockRef.current = false;
-        window.scrollTo({ top: targetTop, behavior: "auto" });
-      };
-
-      snapAnimationFrameRef.current = window.requestAnimationFrame(step);
-    },
-    [clearSnapLock, getCaseTargetTop, hideCaseCursor, reduceMotion]
-  );
 
   useEffect(() => {
     if (reduceMotion) {
@@ -407,10 +299,6 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    activeCaseIndexRef.current = activeCaseIndex;
-  }, [activeCaseIndex]);
-
-  useEffect(() => {
     if (!isDesktopCases) {
       setActiveCaseIndex(0);
       return undefined;
@@ -420,10 +308,6 @@ export default function HomePage() {
 
     const updateCaseIndex = () => {
       rafId = 0;
-      if (snapLockRef.current) {
-        return;
-      }
-
       const nextIndex = getClosestCaseIndex();
 
       if (nextIndex === null) {
@@ -470,87 +354,6 @@ export default function HomePage() {
   const revealDelayClassName = entryClassNames(styles.entryCases);
 
   useEffect(() => {
-    if (!isDesktopCases) {
-      clearSnapLock();
-      clearWheelGestureLock();
-      return undefined;
-    }
-
-    const handleWheel = (event: WheelEvent) => {
-      const section = casesSectionRef.current;
-
-      if (!section || !caseRowRefs.current.length) {
-        return;
-      }
-
-      const sectionBounds = section.getBoundingClientRect();
-      const isAnchorInsideSection =
-        sectionBounds.top <= HOME_CASE_SNAP_TOP_OFFSET_PX &&
-        sectionBounds.bottom >= HOME_CASE_SNAP_TOP_OFFSET_PX;
-
-      if (!isAnchorInsideSection) {
-        return;
-      }
-
-      const currentIndex = activeCaseIndexRef.current;
-      const currentRow = caseRowRefs.current[currentIndex];
-
-      if (!currentRow) {
-        return;
-      }
-
-      const direction = Math.sign(event.deltaY);
-
-      if (!direction) {
-        return;
-      }
-
-      const nextIndex = currentIndex + (direction > 0 ? 1 : -1);
-      const hasSnapTarget =
-        nextIndex >= 0 && nextIndex < caseRowRefs.current.length;
-
-      if (wheelGestureLockRef.current || snapLockRef.current) {
-        if (hasSnapTarget) {
-          event.preventDefault();
-          keepWheelGestureLocked();
-        }
-        return;
-      }
-
-      if (!hasSnapTarget) {
-        clearWheelGestureLock();
-        return;
-      }
-
-      const currentBounds = currentRow.getBoundingClientRect();
-      const isCurrentRowAligned =
-        Math.abs(currentBounds.top - HOME_CASE_SNAP_TOP_OFFSET_PX) <=
-        HOME_CASE_SNAP_TOLERANCE_PX;
-
-      if (!isCurrentRowAligned) {
-        return;
-      }
-
-      keepWheelGestureLocked();
-
-      event.preventDefault();
-      scrollToCaseIndex(nextIndex);
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, [
-    clearSnapLock,
-    clearWheelGestureLock,
-    isDesktopCases,
-    keepWheelGestureLocked,
-    scrollToCaseIndex
-  ]);
-
-  useEffect(() => {
     if (!hasPointerCursor) {
       return undefined;
     }
@@ -571,26 +374,34 @@ export default function HomePage() {
       if (cursorFrameRef.current) {
         window.cancelAnimationFrame(cursorFrameRef.current);
       }
-
-      clearSnapLock();
-      clearWheelGestureLock();
     };
-  }, [clearSnapLock, clearWheelGestureLock]);
+  }, []);
 
   const handleDotClick = (index: number) => {
-    scrollToCaseIndex(index);
+    const row = caseRowRefs.current[index];
+
+    if (!row) {
+      return;
+    }
+
+    hideCaseCursor();
+
+    window.scrollTo({
+      top: window.scrollY + row.getBoundingClientRect().top - HOME_CASE_SNAP_TOP_OFFSET_PX,
+      behavior: reduceMotion ? "auto" : "smooth"
+    });
   };
 
   const handleCasePointerMove = (
     index: number,
     event: ReactMouseEvent<HTMLAnchorElement>
   ) => {
-    if (!hasPointerCursor || snapLockRef.current) {
+    if (!hasPointerCursor) {
       hideCaseCursor();
       return;
     }
 
-    if (index !== activeCaseIndexRef.current) {
+    if (index !== activeCaseIndex) {
       hideCaseCursor();
       return;
     }
@@ -638,7 +449,6 @@ export default function HomePage() {
         />
 
         <section
-          ref={casesSectionRef}
           id="cases"
           className={`${styles.casesSection} ${revealDelayClassName}`}
           aria-labelledby="homepage-cases-title"
