@@ -20,9 +20,8 @@ const HERO_LOOP_GUARD_S = 0.08;
 const HOME_CASE_METRIC_LIMIT = 2;
 const HOME_CASE_SNAP_TOP_OFFSET_PX = 112;
 const HOME_CASE_SNAP_TOLERANCE_PX = 32;
-const HOME_CASE_SNAP_LOCK_MS = 760;
-const HOME_CASE_SNAP_REDUCED_LOCK_MS = 120;
 const HOME_CASE_WHEEL_IDLE_MS = 220;
+const HOME_CASE_SNAP_SCROLL_MS = 560;
 
 type HomeCaseSlide = {
   slug: string;
@@ -112,7 +111,7 @@ export default function HomePage() {
   const caseCursorRef = useRef<HTMLSpanElement | null>(null);
   const cursorPositionRef = useRef({ x: 0, y: 0 });
   const cursorFrameRef = useRef(0);
-  const snapLockTimeoutRef = useRef<number | null>(null);
+  const snapAnimationFrameRef = useRef(0);
   const wheelGestureTimeoutRef = useRef<number | null>(null);
   const snapLockRef = useRef(false);
   const wheelGestureLockRef = useRef(false);
@@ -150,9 +149,9 @@ export default function HomePage() {
   const clearSnapLock = useCallback(() => {
     snapLockRef.current = false;
 
-    if (snapLockTimeoutRef.current) {
-      window.clearTimeout(snapLockTimeoutRef.current);
-      snapLockTimeoutRef.current = null;
+    if (snapAnimationFrameRef.current) {
+      window.cancelAnimationFrame(snapAnimationFrameRef.current);
+      snapAnimationFrameRef.current = 0;
     }
   }, []);
 
@@ -204,11 +203,21 @@ export default function HomePage() {
     return nextIndex;
   }, []);
 
+  const getCaseTargetTop = useCallback((index: number) => {
+    const row = caseRowRefs.current[index];
+
+    if (!row) {
+      return null;
+    }
+
+    return window.scrollY + row.getBoundingClientRect().top - HOME_CASE_SNAP_TOP_OFFSET_PX;
+  }, []);
+
   const scrollToCaseIndex = useCallback(
     (index: number) => {
-      const row = caseRowRefs.current[index];
+      const targetTop = getCaseTargetTop(index);
 
-      if (!row) {
+      if (targetTop === null) {
         return;
       }
 
@@ -219,17 +228,47 @@ export default function HomePage() {
       activeCaseIndexRef.current = index;
       setActiveCaseIndex(index);
 
-      row.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start"
-      });
-
-      snapLockTimeoutRef.current = window.setTimeout(() => {
+      if (reduceMotion) {
+        window.scrollTo({ top: targetTop, behavior: "auto" });
         snapLockRef.current = false;
-        snapLockTimeoutRef.current = null;
-      }, reduceMotion ? HOME_CASE_SNAP_REDUCED_LOCK_MS : HOME_CASE_SNAP_LOCK_MS);
+        return;
+      }
+
+      const startTop = window.scrollY;
+      const distance = targetTop - startTop;
+
+      if (Math.abs(distance) < 1) {
+        snapLockRef.current = false;
+        return;
+      }
+
+      const startTime = performance.now();
+
+      const step = (timestamp: number) => {
+        const progress = Math.min(
+          1,
+          (timestamp - startTime) / HOME_CASE_SNAP_SCROLL_MS
+        );
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+        window.scrollTo({
+          top: startTop + distance * easedProgress,
+          behavior: "auto"
+        });
+
+        if (progress < 1) {
+          snapAnimationFrameRef.current = window.requestAnimationFrame(step);
+          return;
+        }
+
+        snapAnimationFrameRef.current = 0;
+        snapLockRef.current = false;
+        window.scrollTo({ top: targetTop, behavior: "auto" });
+      };
+
+      snapAnimationFrameRef.current = window.requestAnimationFrame(step);
     },
-    [clearSnapLock, hideCaseCursor, reduceMotion]
+    [clearSnapLock, getCaseTargetTop, hideCaseCursor, reduceMotion]
   );
 
   useEffect(() => {
@@ -431,7 +470,7 @@ export default function HomePage() {
   const revealDelayClassName = entryClassNames(styles.entryCases);
 
   useEffect(() => {
-    if (!isDesktopCases || !hasPointerCursor) {
+    if (!isDesktopCases) {
       clearSnapLock();
       clearWheelGestureLock();
       return undefined;
@@ -506,7 +545,6 @@ export default function HomePage() {
   }, [
     clearSnapLock,
     clearWheelGestureLock,
-    hasPointerCursor,
     isDesktopCases,
     keepWheelGestureLocked,
     scrollToCaseIndex
