@@ -297,10 +297,10 @@
 }
 
 .caseCursorChip {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
-  z-index: 5;
+  z-index: 30;
   padding: 18px 22px;
   border-radius: 999px;
   background: #101214;
@@ -312,6 +312,7 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
+  will-change: left, top, opacity, transform;
   transform: translate(-50%, -50%) scale(0.92);
   transition:
     opacity 180ms var(--ease-standard),

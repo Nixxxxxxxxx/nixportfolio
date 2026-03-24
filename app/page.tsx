@@ -3,7 +3,7 @@
 import type { MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 import { BottomMenuDock } from "@/components/site/bottom-menu-dock";
@@ -18,6 +18,10 @@ const HOME_ENTRY_MEDIA_FALLBACK_MS = 1600;
 const HERO_LOOP_START_OFFSET_S = 0.05;
 const HERO_LOOP_GUARD_S = 0.08;
 const HOME_CASE_METRIC_LIMIT = 2;
+const HOME_CASE_SNAP_TOP_OFFSET_PX = 112;
+const HOME_CASE_SNAP_TOLERANCE_PX = 120;
+const HOME_CASE_SNAP_LOCK_MS = 720;
+const HOME_CASE_SNAP_REDUCED_LOCK_MS = 80;
 
 type HomeCaseSlide = {
   slug: string;
@@ -102,14 +106,106 @@ function HomeCasePreview({
 export default function HomePage() {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const casesSectionRef = useRef<HTMLElement | null>(null);
   const caseRowRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const caseCursorRef = useRef<HTMLSpanElement | null>(null);
+  const cursorPositionRef = useRef({ x: 0, y: 0 });
+  const cursorFrameRef = useRef(0);
+  const snapLockTimeoutRef = useRef<number | null>(null);
+  const snapLockRef = useRef(false);
+  const activeCaseIndexRef = useRef(0);
 
   const [entryReady, setEntryReady] = useState(false);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
   const [isDesktopCases, setIsDesktopCases] = useState(false);
   const [hasPointerCursor, setHasPointerCursor] = useState(false);
   const [isCursorVisible, setIsCursorVisible] = useState(false);
+
+  const hideCaseCursor = useCallback(() => {
+    setIsCursorVisible(false);
+  }, []);
+
+  const queueCursorPosition = useCallback((clientX: number, clientY: number) => {
+    cursorPositionRef.current = { x: clientX, y: clientY };
+
+    if (cursorFrameRef.current) {
+      return;
+    }
+
+    cursorFrameRef.current = window.requestAnimationFrame(() => {
+      cursorFrameRef.current = 0;
+
+      if (!caseCursorRef.current) {
+        return;
+      }
+
+      caseCursorRef.current.style.left = `${cursorPositionRef.current.x}px`;
+      caseCursorRef.current.style.top = `${cursorPositionRef.current.y}px`;
+    });
+  }, []);
+
+  const clearSnapLock = useCallback(() => {
+    snapLockRef.current = false;
+
+    if (snapLockTimeoutRef.current) {
+      window.clearTimeout(snapLockTimeoutRef.current);
+      snapLockTimeoutRef.current = null;
+    }
+  }, []);
+
+  const getClosestCaseIndex = useCallback(() => {
+    if (!caseRowRefs.current.length) {
+      return null;
+    }
+
+    let nextIndex = 0;
+    let minDistance = Number.POSITIVE_INFINITY;
+
+    caseRowRefs.current.forEach((row, index) => {
+      if (!row) {
+        return;
+      }
+
+      const distance = Math.abs(
+        row.getBoundingClientRect().top - HOME_CASE_SNAP_TOP_OFFSET_PX
+      );
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        nextIndex = index;
+      }
+    });
+
+    return nextIndex;
+  }, []);
+
+  const scrollToCaseIndex = useCallback(
+    (index: number) => {
+      const row = caseRowRefs.current[index];
+
+      if (!row) {
+        return;
+      }
+
+      hideCaseCursor();
+      clearSnapLock();
+
+      snapLockRef.current = true;
+      activeCaseIndexRef.current = index;
+      setActiveCaseIndex(index);
+
+      row.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start"
+      });
+
+      snapLockTimeoutRef.current = window.setTimeout(() => {
+        snapLockRef.current = false;
+        snapLockTimeoutRef.current = null;
+      }, reduceMotion ? HOME_CASE_SNAP_REDUCED_LOCK_MS : HOME_CASE_SNAP_LOCK_MS);
+    },
+    [clearSnapLock, hideCaseCursor, reduceMotion]
+  );
 
   useEffect(() => {
     if (reduceMotion) {
@@ -247,6 +343,10 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    activeCaseIndexRef.current = activeCaseIndex;
+  }, [activeCaseIndex]);
+
+  useEffect(() => {
     if (!isDesktopCases) {
       setActiveCaseIndex(0);
       return undefined;
@@ -256,26 +356,13 @@ export default function HomePage() {
 
     const updateCaseIndex = () => {
       rafId = 0;
-      const viewportCenter = window.innerHeight / 2;
-      let nextIndex = 0;
-      let minDistance = Number.POSITIVE_INFINITY;
+      if (snapLockRef.current) {
+        return;
+      }
 
-      caseRowRefs.current.forEach((row, index) => {
-        if (!row) {
-          return;
-        }
+      const nextIndex = getClosestCaseIndex();
 
-        const bounds = row.getBoundingClientRect();
-        const rowCenter = bounds.top + bounds.height / 2;
-        const distance = Math.abs(rowCenter - viewportCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          nextIndex = index;
-        }
-      });
-
-      if (!caseRowRefs.current.length) {
+      if (nextIndex === null) {
         return;
       }
 
@@ -305,11 +392,11 @@ export default function HomePage() {
         window.cancelAnimationFrame(rafId);
       }
     };
-  }, [isDesktopCases]);
+  }, [getClosestCaseIndex, isDesktopCases]);
 
   useEffect(() => {
-    setIsCursorVisible(false);
-  }, [activeCaseIndex]);
+    hideCaseCursor();
+  }, [activeCaseIndex, hideCaseCursor]);
 
   const entryClassNames = (stageClassName: string) =>
     [styles.entryItem, stageClassName, entryReady ? styles.entryReady : ""]
@@ -318,36 +405,121 @@ export default function HomePage() {
 
   const revealDelayClassName = entryClassNames(styles.entryCases);
 
-  const handleDotClick = (index: number) => {
-    const row = caseRowRefs.current[index];
-
-    if (!row) {
-      return;
+  useEffect(() => {
+    if (!isDesktopCases || !hasPointerCursor) {
+      clearSnapLock();
+      return undefined;
     }
 
-    row.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "start"
-    });
+    const handleWheel = (event: WheelEvent) => {
+      const section = casesSectionRef.current;
+
+      if (!section || !caseRowRefs.current.length) {
+        return;
+      }
+
+      const sectionBounds = section.getBoundingClientRect();
+      const isAnchorInsideSection =
+        sectionBounds.top <= HOME_CASE_SNAP_TOP_OFFSET_PX &&
+        sectionBounds.bottom >= HOME_CASE_SNAP_TOP_OFFSET_PX;
+
+      if (!isAnchorInsideSection) {
+        return;
+      }
+
+      const currentIndex = activeCaseIndexRef.current;
+      const currentRow = caseRowRefs.current[currentIndex];
+
+      if (!currentRow) {
+        return;
+      }
+
+      const currentBounds = currentRow.getBoundingClientRect();
+      const isCurrentRowAligned =
+        Math.abs(currentBounds.top - HOME_CASE_SNAP_TOP_OFFSET_PX) <=
+        HOME_CASE_SNAP_TOLERANCE_PX;
+
+      if (!isCurrentRowAligned) {
+        return;
+      }
+
+      const direction = Math.sign(event.deltaY);
+
+      if (!direction) {
+        return;
+      }
+
+      if (snapLockRef.current) {
+        event.preventDefault();
+        return;
+      }
+
+      const nextIndex = currentIndex + (direction > 0 ? 1 : -1);
+
+      if (nextIndex < 0 || nextIndex >= caseRowRefs.current.length) {
+        return;
+      }
+
+      event.preventDefault();
+      scrollToCaseIndex(nextIndex);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [clearSnapLock, hasPointerCursor, isDesktopCases, scrollToCaseIndex]);
+
+  useEffect(() => {
+    if (!hasPointerCursor) {
+      return undefined;
+    }
+
+    const handleScroll = () => {
+      hideCaseCursor();
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [hasPointerCursor, hideCaseCursor]);
+
+  useEffect(() => {
+    return () => {
+      if (cursorFrameRef.current) {
+        window.cancelAnimationFrame(cursorFrameRef.current);
+      }
+
+      clearSnapLock();
+    };
+  }, [clearSnapLock]);
+
+  const handleDotClick = (index: number) => {
+    scrollToCaseIndex(index);
   };
 
-  const handleCasePointerMove = (event: ReactMouseEvent<HTMLAnchorElement>) => {
-    if (!hasPointerCursor || !caseCursorRef.current) {
+  const handleCasePointerMove = (
+    index: number,
+    event: ReactMouseEvent<HTMLAnchorElement>
+  ) => {
+    if (!hasPointerCursor || snapLockRef.current) {
+      hideCaseCursor();
       return;
     }
 
-    const bounds = event.currentTarget.getBoundingClientRect();
+    if (index !== activeCaseIndexRef.current) {
+      hideCaseCursor();
+      return;
+    }
 
-    caseCursorRef.current.style.left = `${event.clientX - bounds.left}px`;
-    caseCursorRef.current.style.top = `${event.clientY - bounds.top}px`;
+    queueCursorPosition(event.clientX, event.clientY);
 
     if (!isCursorVisible) {
       setIsCursorVisible(true);
     }
-  };
-
-  const hideCaseCursor = () => {
-    setIsCursorVisible(false);
   };
 
   return (
@@ -386,6 +558,7 @@ export default function HomePage() {
         />
 
         <section
+          ref={casesSectionRef}
           id="cases"
           className={`${styles.casesSection} ${revealDelayClassName}`}
           aria-labelledby="homepage-cases-title"
@@ -406,12 +579,15 @@ export default function HomePage() {
                   className={[
                     styles.desktopCaseLink,
                     styles.desktopCaseRowLink,
-                    hasPointerCursor ? styles.desktopCaseLinkCursor : ""
+                    hasPointerCursor && index === activeCaseIndex
+                      ? styles.desktopCaseLinkCursor
+                      : ""
                   ]
                     .filter(Boolean)
                     .join(" ")}
                   aria-label={`${slide.title}. ${slide.summary}`}
-                  onMouseMove={handleCasePointerMove}
+                  onMouseEnter={(event) => handleCasePointerMove(index, event)}
+                  onMouseMove={(event) => handleCasePointerMove(index, event)}
                   onMouseLeave={hideCaseCursor}
                 >
                   <article className={styles.desktopCaseSlide}>
@@ -444,26 +620,14 @@ export default function HomePage() {
                       />
                     </div>
                   </article>
-
-                  {hasPointerCursor && index === activeCaseIndex ? (
-                    <span
-                      ref={caseCursorRef}
-                      className={[
-                        styles.caseCursorChip,
-                        isCursorVisible ? styles.caseCursorChipVisible : ""
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      aria-hidden="true"
-                    >
-                      Посмотреть кейсы
-                    </span>
-                  ) : null}
                 </Link>
               ))}
             </div>
 
-            <div className={styles.desktopCaseDotsRail}>
+            <div
+              className={styles.desktopCaseDotsRail}
+              onMouseEnter={hideCaseCursor}
+            >
               <div className={styles.caseDots} aria-label="Навигация по кейсам">
                 {homeCaseSlides.map((slide, index) => (
                   <button
@@ -483,6 +647,21 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          {hasPointerCursor ? (
+            <span
+              ref={caseCursorRef}
+              className={[
+                styles.caseCursorChip,
+                isCursorVisible ? styles.caseCursorChipVisible : ""
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              aria-hidden="true"
+            >
+              Посмотреть кейсы
+            </span>
+          ) : null}
 
           <div className={styles.mobileCaseStack}>
             {homeCaseSlides.map((slide, index) => (
