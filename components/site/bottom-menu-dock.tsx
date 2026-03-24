@@ -10,7 +10,7 @@ type BottomMenuDockProps = {
 
 export function BottomMenuDock({
   className,
-  placement = "bottom"
+  placement = "top"
 }: BottomMenuDockProps) {
   return (
     <div
