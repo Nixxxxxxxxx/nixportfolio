@@ -20,8 +20,9 @@ const HERO_LOOP_GUARD_S = 0.08;
 const HOME_CASE_METRIC_LIMIT = 2;
 const HOME_CASE_SNAP_TOP_OFFSET_PX = 112;
 const HOME_CASE_SNAP_TOLERANCE_PX = 32;
-const HOME_CASE_SNAP_LOCK_MS = 1100;
+const HOME_CASE_SNAP_LOCK_MS = 760;
 const HOME_CASE_SNAP_REDUCED_LOCK_MS = 120;
+const HOME_CASE_WHEEL_IDLE_MS = 220;
 
 type HomeCaseSlide = {
   slug: string;
@@ -112,7 +113,9 @@ export default function HomePage() {
   const cursorPositionRef = useRef({ x: 0, y: 0 });
   const cursorFrameRef = useRef(0);
   const snapLockTimeoutRef = useRef<number | null>(null);
+  const wheelGestureTimeoutRef = useRef<number | null>(null);
   const snapLockRef = useRef(false);
+  const wheelGestureLockRef = useRef(false);
   const activeCaseIndexRef = useRef(0);
 
   const [entryReady, setEntryReady] = useState(false);
@@ -151,6 +154,28 @@ export default function HomePage() {
       window.clearTimeout(snapLockTimeoutRef.current);
       snapLockTimeoutRef.current = null;
     }
+  }, []);
+
+  const clearWheelGestureLock = useCallback(() => {
+    wheelGestureLockRef.current = false;
+
+    if (wheelGestureTimeoutRef.current) {
+      window.clearTimeout(wheelGestureTimeoutRef.current);
+      wheelGestureTimeoutRef.current = null;
+    }
+  }, []);
+
+  const keepWheelGestureLocked = useCallback(() => {
+    wheelGestureLockRef.current = true;
+
+    if (wheelGestureTimeoutRef.current) {
+      window.clearTimeout(wheelGestureTimeoutRef.current);
+    }
+
+    wheelGestureTimeoutRef.current = window.setTimeout(() => {
+      wheelGestureLockRef.current = false;
+      wheelGestureTimeoutRef.current = null;
+    }, HOME_CASE_WHEEL_IDLE_MS);
   }, []);
 
   const getClosestCaseIndex = useCallback(() => {
@@ -408,6 +433,7 @@ export default function HomePage() {
   useEffect(() => {
     if (!isDesktopCases || !hasPointerCursor) {
       clearSnapLock();
+      clearWheelGestureLock();
       return undefined;
     }
 
@@ -434,6 +460,29 @@ export default function HomePage() {
         return;
       }
 
+      const direction = Math.sign(event.deltaY);
+
+      if (!direction) {
+        return;
+      }
+
+      const nextIndex = currentIndex + (direction > 0 ? 1 : -1);
+      const hasSnapTarget =
+        nextIndex >= 0 && nextIndex < caseRowRefs.current.length;
+
+      if (wheelGestureLockRef.current || snapLockRef.current) {
+        if (hasSnapTarget) {
+          event.preventDefault();
+          keepWheelGestureLocked();
+        }
+        return;
+      }
+
+      if (!hasSnapTarget) {
+        clearWheelGestureLock();
+        return;
+      }
+
       const currentBounds = currentRow.getBoundingClientRect();
       const isCurrentRowAligned =
         Math.abs(currentBounds.top - HOME_CASE_SNAP_TOP_OFFSET_PX) <=
@@ -443,22 +492,7 @@ export default function HomePage() {
         return;
       }
 
-      const direction = Math.sign(event.deltaY);
-
-      if (!direction) {
-        return;
-      }
-
-      if (snapLockRef.current) {
-        event.preventDefault();
-        return;
-      }
-
-      const nextIndex = currentIndex + (direction > 0 ? 1 : -1);
-
-      if (nextIndex < 0 || nextIndex >= caseRowRefs.current.length) {
-        return;
-      }
+      keepWheelGestureLocked();
 
       event.preventDefault();
       scrollToCaseIndex(nextIndex);
@@ -469,7 +503,14 @@ export default function HomePage() {
     return () => {
       window.removeEventListener("wheel", handleWheel);
     };
-  }, [clearSnapLock, hasPointerCursor, isDesktopCases, scrollToCaseIndex]);
+  }, [
+    clearSnapLock,
+    clearWheelGestureLock,
+    hasPointerCursor,
+    isDesktopCases,
+    keepWheelGestureLocked,
+    scrollToCaseIndex
+  ]);
 
   useEffect(() => {
     if (!hasPointerCursor) {
@@ -494,8 +535,9 @@ export default function HomePage() {
       }
 
       clearSnapLock();
+      clearWheelGestureLock();
     };
-  }, [clearSnapLock]);
+  }, [clearSnapLock, clearWheelGestureLock]);
 
   const handleDotClick = (index: number) => {
     scrollToCaseIndex(index);
