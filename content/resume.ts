@@ -244,7 +244,7 @@ export const resumeData: ResumeData = {
     {
       company: "Magnit Tech",
       role: "Product designer ( проектная основа )",
-      period: "Июнь 2023 - Янв. 2023",
+      period: "Июнь 2022 - Янв. 2023",
       tags: ["B2E"],
       badge: {
         type: "magnit"
