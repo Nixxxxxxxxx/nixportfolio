@@ -70,7 +70,7 @@ export const resumeData: ResumeData = {
     {
       company: "Crauch / работяги",
       role: "Продуктовый дизайнер",
-      period: "Апр. 2025 г - Настоящее время",
+      period: "Апр. 2025 г - Сейчас",
       tags: ["Аутстафф", "B2B", "B2C", "B2E"],
       badge: {
         type: "image",
@@ -212,7 +212,7 @@ export const resumeData: ResumeData = {
     {
       company: "GoodGoose",
       role: "UX/UI дизайнер",
-      period: "Янв. 2024 - Апр. 2025",
+      period: "Янв. 2023 - Сен. 2024",
       tags: ["Ecom", "B2C"],
       badge: {
         type: "text",
