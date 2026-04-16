@@ -212,7 +212,7 @@ export const resumeData: ResumeData = {
     {
       company: "GoodGoose",
       role: "UX/UI дизайнер",
-      period: "Сен. 2024 - Апр. 2025",
+      period: "Янв. 2024 - Апр. 2025",
       tags: ["Ecom", "B2C"],
       badge: {
         type: "text",
