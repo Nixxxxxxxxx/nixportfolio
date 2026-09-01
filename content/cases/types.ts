@@ -84,6 +84,8 @@ export type CaseStudyData = {
   overview: readonly CaseOverviewItem[];
   results: {
     title: string;
+    workedTitle?: string;
+    didntWorkTitle?: string;
     metrics: readonly CaseMetric[];
     worked: readonly string[];
     didntWork: readonly string[];
@@ -102,6 +104,20 @@ export type CaseStudyData = {
     title: string;
     description: string;
     stages: readonly CaseProcessStage[];
+  };
+  solutionSections?: readonly {
+    id: string;
+    title: string;
+    description: string;
+    items: readonly {
+      title: string;
+      description: string;
+      image: CaseImageAsset;
+    }[];
+  }[];
+  conclusion?: {
+    title: string;
+    description: string;
   };
   assets: {
     logo: CaseImageAsset;

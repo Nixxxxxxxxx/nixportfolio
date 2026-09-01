@@ -2,11 +2,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .navSegment,
 .socialSegment {
+  pointer-events: auto;
   min-height: 56px;
   display: inline-flex;
   align-items: center;

@@ -138,19 +138,21 @@ function ResultSummary({ id, results }: ResultSummaryProps) {
           <h2 id={id} className={styles.sectionTitle}>
             {results.title}
           </h2>
-          <div className={styles.metrics}>
-            {results.metrics.map((metric) => (
-              <div key={metric.label} className={styles.metric}>
-                <p className={styles.metricLabel}>{metric.label}</p>
-                <div className={styles.metricValueRow}>
-                  <p className={styles.metricValue}>{metric.value}</p>
-                  <span className={styles.metricArrow} aria-hidden="true">
-                    ↑
-                  </span>
+          {results.metrics.length > 0 ? (
+            <div className={styles.metrics}>
+              {results.metrics.map((metric) => (
+                <div key={metric.label} className={styles.metric}>
+                  <p className={styles.metricLabel}>{metric.label}</p>
+                  <div className={styles.metricValueRow}>
+                    <p className={styles.metricValue}>{metric.value}</p>
+                    <span className={styles.metricArrow} aria-hidden="true">
+                      ↑
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </FadeIn>
 
@@ -158,7 +160,9 @@ function ResultSummary({ id, results }: ResultSummaryProps) {
 
       <div className={styles.resultColumns}>
         <FadeIn className={styles.resultColumn} delay={0.08}>
-          <h3 className={styles.subsectionTitle}>Что сработало?</h3>
+          <h3 className={styles.subsectionTitle}>
+            {results.workedTitle ?? "Что сработало?"}
+          </h3>
           <div className={styles.resultTextStack}>
             {results.worked.map((item) => (
               <p key={item} className={styles.resultParagraph}>
@@ -168,7 +172,9 @@ function ResultSummary({ id, results }: ResultSummaryProps) {
           </div>
         </FadeIn>
         <FadeIn className={styles.resultColumn} delay={0.14}>
-          <h3 className={styles.subsectionTitle}>Что не сработало?</h3>
+          <h3 className={styles.subsectionTitle}>
+            {results.didntWorkTitle ?? "Что не сработало?"}
+          </h3>
           <div className={styles.resultTextStack}>
             {results.didntWork.map((item) => (
               <p key={item} className={styles.resultParagraph}>
@@ -189,10 +195,10 @@ type CaseStudyPageProps = {
 export function CaseStudyPage({ study }: CaseStudyPageProps) {
   return (
     <main className={styles.page}>
-      <div className={styles.canvas}>
+      <div className={`${styles.canvas} ${study.solutionSections ? styles.detailedCase : ""}`}>
         <header className={styles.intro} aria-label="Вводный блок кейса">
           <FadeIn className={styles.introTitle}>
-            <p>{study.intro.title}</p>
+            <h1>{study.intro.title}</h1>
           </FadeIn>
 
           <FadeIn className={styles.logoWrap} delay={0.08}>
@@ -384,6 +390,54 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
           </div>
         </section>
 
+        {study.solutionSections?.map((section) => (
+          <section
+            key={section.id}
+            id={section.id}
+            className={`${styles.contentSection} ${styles.standardSection}`}
+            aria-labelledby={`${section.id}-title`}
+          >
+            <FadeIn animatePosition={false}>
+              <SectionHeader
+                id={`${section.id}-title`}
+                title={section.title}
+                description={section.description}
+              />
+            </FadeIn>
+            <div className={styles.solutionStack}>
+              {section.items.map((item) => (
+                <FadeIn key={item.title} animatePosition={false}>
+                  <figure className={styles.solutionFigure}>
+                    <figcaption className={styles.storyHeader}>
+                      <h3 className={styles.storyTitle}>{item.title}</h3>
+                      <p className={styles.storyText}>{item.description}</p>
+                    </figcaption>
+                    <a
+                      className={styles.solutionImageLink}
+                      href={item.image.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${item.image.alt}. Открыть полный экран в новой вкладке`}
+                    >
+                      <Image
+                        src={item.image.src}
+                        alt={item.image.alt}
+                        width={item.image.width ?? 1512}
+                        height={item.image.height ?? 944}
+                        className={styles.solutionImage}
+                        unoptimized
+                        style={{ maxWidth: item.image.width }}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
+                      />
+                      <span className={styles.solutionImageHint}>Открыть крупнее</span>
+                    </a>
+                  </figure>
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+        ))}
+
         {study.showTaskFlow === false ? null : (
           <section className={styles.flowSection} aria-labelledby="task-flow-title">
             <FadeIn className={styles.flowHeader}>
@@ -444,7 +498,17 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
           className={`${styles.contentSection} ${styles.standardSection} ${styles.finalResultsSection}`}
           aria-labelledby="final-results-title"
         >
-          <ResultSummary id="final-results-title" results={study.results} />
+          {study.conclusion ? (
+            <FadeIn animatePosition={false}>
+              <SectionHeader
+                id="final-results-title"
+                title={study.conclusion.title}
+                description={study.conclusion.description}
+              />
+            </FadeIn>
+          ) : (
+            <ResultSummary id="final-results-title" results={study.results} />
+          )}
         </section>
       </div>
     </main>

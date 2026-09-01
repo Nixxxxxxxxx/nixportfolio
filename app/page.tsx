@@ -487,14 +487,16 @@ export default function HomePage() {
                         <p className={styles.caseSummary}>{slide.summary}</p>
                       </div>
 
-                      <div className={styles.caseMetrics}>
-                        {slide.metrics.map((metric) => (
-                          <div key={metric.label} className={styles.caseMetric}>
-                            <p className={styles.caseMetricLabel}>{metric.label}</p>
-                            <p className={styles.caseMetricValue}>{metric.value}</p>
-                          </div>
-                        ))}
-                      </div>
+                      {slide.metrics.length > 0 ? (
+                        <div className={styles.caseMetrics}>
+                          {slide.metrics.map((metric) => (
+                            <div key={metric.label} className={styles.caseMetric}>
+                              <p className={styles.caseMetricLabel}>{metric.label}</p>
+                              <p className={styles.caseMetricValue}>{metric.value}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
 
                     <div className={styles.casePreviewGrid}>
@@ -566,14 +568,16 @@ export default function HomePage() {
                   <p className={styles.mobileCaseSummary}>{slide.summary}</p>
                 </div>
 
-                <div className={styles.mobileMetricGrid}>
-                  {slide.metrics.map((metric) => (
-                    <div key={metric.label} className={styles.mobileMetric}>
-                      <p className={styles.mobileMetricLabel}>{metric.label}</p>
-                      <p className={styles.mobileMetricValue}>{metric.value}</p>
-                    </div>
-                  ))}
-                </div>
+                {slide.metrics.length > 0 ? (
+                  <div className={styles.mobileMetricGrid}>
+                    {slide.metrics.map((metric) => (
+                      <div key={metric.label} className={styles.mobileMetric}>
+                        <p className={styles.mobileMetricLabel}>{metric.label}</p>
+                        <p className={styles.mobileMetricValue}>{metric.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
 
                 <div className={styles.mobilePreviewGrid}>
                   <HomeCasePreview

@@ -46,8 +46,10 @@
 }
 
 .introTitle p,
+.introTitle h1,
 .introSummary p {
   margin: 0;
+  font: inherit;
 }
 
 .logoWrap {
@@ -585,6 +587,90 @@
   transform: translateY(-0.42%) scaleY(1.0991);
 }
 
+.solutionStack {
+  display: grid;
+  gap: 64px;
+}
+
+.solutionFigure {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.solutionImageLink {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  color: var(--color-muted);
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.solutionImageLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+.solutionImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.solutionImageHint {
+  font-size: 13px;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Longer case stories keep the template's rhythm without fixed text rows. */
+.detailedCase .standardSection,
+.detailedCase .resultsSection {
+  width: min(calc(100% - 64px), 1280px);
+}
+
+.detailedCase .resultSummary {
+  width: 100%;
+  margin-left: 0;
+}
+
+.detailedCase .comparisonLabel {
+  padding-left: 0;
+}
+
+.detailedCase .sectionHeader {
+  width: min(100%, 760px);
+}
+
+.detailedCase .twoColumnGrid,
+.detailedCase .processGrid,
+.detailedCase .resultColumns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: none;
+  row-gap: 36px;
+}
+
+.detailedCase .storyDivider,
+.detailedCase .hypothesesGrid > :nth-child(-n + 2)::after {
+  width: 100%;
+}
+
+.detailedCase .heroSection {
+  height: auto;
+  align-items: stretch;
+}
+
+.detailedCase .overviewGrid {
+  height: auto;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 @media (max-width: 1508px) {
   .intro {
     grid-template-columns: 270px minmax(320px, 1fr) 329px;
@@ -737,6 +823,43 @@
 }
 
 @media (max-width: 768px) {
+  .detailedCase .intro {
+    padding-top: calc(156px + env(safe-area-inset-top, 0px));
+  }
+
+  .detailedCase .intro + .heroSection {
+    margin-top: 32px;
+  }
+
+  .detailedCase section[id] {
+    scroll-margin-top: 156px;
+  }
+
+  .detailedCase .standardSection,
+  .detailedCase .resultsSection {
+    width: calc(100% - (var(--layout-gutter-tablet) * 2));
+  }
+
+  .detailedCase .twoColumnGrid,
+  .detailedCase .processGrid,
+  .detailedCase .resultColumns {
+    grid-template-columns: 1fr;
+    row-gap: calc(30px + var(--mobile-rhythm-step));
+  }
+
+  .detailedCase .overviewGrid {
+    grid-template-rows: none;
+  }
+
+  .solutionStack {
+    gap: 48px;
+  }
+
+  .solutionFigure {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
   .canvas {
     --mobile-rhythm-step: 12px;
     padding-bottom: var(--bottom-menu-clearance-mobile);
@@ -882,6 +1005,11 @@
 }
 
 @media (max-width: 480px) {
+  .detailedCase .standardSection,
+  .detailedCase .resultsSection {
+    width: calc(100% - (var(--layout-gutter-phone) * 2));
+  }
+
   .canvas {
     --mobile-rhythm-step: 12px;
     padding-bottom: var(--bottom-menu-clearance-mobile);

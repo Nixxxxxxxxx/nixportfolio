@@ -68,7 +68,7 @@
 
 @media (max-width: 768px) {
   .topBarLayer {
-    top: 16px;
+    top: calc(80px + env(safe-area-inset-top, 0px));
   }
 
   .topBar {
@@ -76,9 +76,9 @@
   }
 
   .backButton {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
   }
 
   .content {
