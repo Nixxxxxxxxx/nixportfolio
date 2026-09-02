@@ -428,22 +428,39 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
                         }
                       >
                         <a
-                          className={styles.solutionImageLink}
+                          className={`${styles.solutionImageLink} ${
+                            item.mobileImage ? styles.solutionDesktopLink : ""
+                          }`}
                           href={item.image.src}
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${item.image.alt}. Открыть полный экран в новой вкладке`}
                         >
-                          <Image
-                            src={item.image.src}
-                            alt={item.image.alt}
-                            width={item.image.width ?? 1512}
-                            height={item.image.height ?? 944}
-                            className={styles.solutionImage}
-                            unoptimized
-                            style={{ maxWidth: item.image.width }}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
-                          />
+                          {item.mobileImage ? (
+                            <span className={styles.solutionDesktopViewport}>
+                              <Image
+                                src={item.image.src}
+                                alt={item.image.alt}
+                                width={item.image.width ?? 1512}
+                                height={item.image.height ?? 944}
+                                className={styles.solutionImage}
+                                unoptimized
+                                style={{ maxWidth: item.image.width }}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
+                              />
+                            </span>
+                          ) : (
+                            <Image
+                              src={item.image.src}
+                              alt={item.image.alt}
+                              width={item.image.width ?? 1512}
+                              height={item.image.height ?? 944}
+                              className={styles.solutionImage}
+                              unoptimized
+                              style={{ maxWidth: item.image.width }}
+                              sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
+                            />
+                          )}
                           <span className={styles.solutionImageHint}>
                             Открыть desktop крупнее
                           </span>

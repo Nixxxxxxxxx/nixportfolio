@@ -631,6 +631,26 @@
   align-items: start;
 }
 
+.solutionDesktopLink {
+  align-self: start;
+}
+
+.solutionDesktopViewport {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1512 / 944;
+  overflow: hidden;
+  background: #eaf1ff;
+  border-radius: 10px;
+}
+
+.solutionDesktopViewport .solutionImage {
+  width: 100%;
+  max-width: none !important;
+  height: auto;
+  border-radius: 0;
+}
+
 .solutionImageLink {
   min-width: 0;
   display: grid;
@@ -686,7 +706,6 @@
   background: #111214;
   border: 1px solid rgba(17, 18, 20, 0.7);
   border-radius: 38px;
-  box-shadow: 0 24px 64px rgba(20, 28, 48, 0.2);
 }
 
 .solutionPhoneMockup::after {
