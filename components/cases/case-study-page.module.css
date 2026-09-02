@@ -616,7 +616,7 @@
 }
 
 .solutionFigureShowcase {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+  grid-template-columns: 1fr;
 }
 
 .solutionMediaSingle {
@@ -624,6 +624,7 @@
 }
 
 .solutionMediaPair {
+  --solution-showcase-height: 467px;
   min-width: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 224px;
@@ -638,7 +639,7 @@
 .solutionDesktopViewport {
   display: block;
   width: 100%;
-  aspect-ratio: 1512 / 944;
+  height: var(--solution-showcase-height);
   overflow: hidden;
   background: #eaf1ff;
   border-radius: 10px;
@@ -681,8 +682,6 @@
 }
 
 .solutionPhoneLink {
-  position: sticky;
-  top: 132px;
   display: grid;
   justify-items: center;
   gap: 12px;
@@ -700,7 +699,9 @@
 .solutionPhoneMockup {
   position: relative;
   display: block;
+  box-sizing: border-box;
   width: 100%;
+  height: var(--solution-showcase-height);
   padding: 8px;
   overflow: hidden;
   background: #111214;
@@ -719,7 +720,8 @@
 
 .solutionPhoneViewport {
   display: block;
-  aspect-ratio: 393 / 852;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: #eaf1ff;
   border-radius: 30px;
@@ -976,10 +978,23 @@
     gap: 28px;
   }
 
+  .solutionDesktopViewport {
+    height: auto;
+    aspect-ratio: 1512 / 944;
+  }
+
   .solutionPhoneLink {
-    position: static;
     width: min(70%, 260px);
     justify-self: center;
+  }
+
+  .solutionPhoneMockup {
+    height: auto;
+  }
+
+  .solutionPhoneViewport {
+    height: auto;
+    aspect-ratio: 393 / 852;
   }
 
   .canvas {

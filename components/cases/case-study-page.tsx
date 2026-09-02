@@ -409,17 +409,18 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
                 const isPortrait =
                   (item.image.height ?? 0) / (item.image.width ?? 1) > 1.5;
 
-                return (
-                  <FadeIn key={item.title} animatePosition={false}>
-                    <figure
+                const figure = (
+                  <figure
                       className={`${styles.solutionFigure} ${
                         isPortrait ? styles.solutionFigurePortrait : ""
                       } ${item.mobileImage ? styles.solutionFigureShowcase : ""}`}
                     >
-                      <figcaption className={styles.storyHeader}>
-                        <h3 className={styles.storyTitle}>{item.title}</h3>
-                        <p className={styles.storyText}>{item.description}</p>
-                      </figcaption>
+                      {item.mobileImage ? null : (
+                        <figcaption className={styles.storyHeader}>
+                          <h3 className={styles.storyTitle}>{item.title}</h3>
+                          <p className={styles.storyText}>{item.description}</p>
+                        </figcaption>
+                      )}
                       <div
                         className={
                           item.mobileImage
@@ -493,7 +494,14 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
                           </a>
                         ) : null}
                       </div>
-                    </figure>
+                  </figure>
+                );
+
+                return item.mobileImage ? (
+                  <div key={item.title}>{figure}</div>
+                ) : (
+                  <FadeIn key={item.title} animatePosition={false}>
+                    {figure}
                   </FadeIn>
                 );
               })}
