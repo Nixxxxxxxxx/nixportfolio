@@ -615,6 +615,22 @@
   justify-self: end;
 }
 
+.solutionFigureShowcase {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+}
+
+.solutionMediaSingle {
+  min-width: 0;
+}
+
+.solutionMediaPair {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 224px;
+  gap: 20px;
+  align-items: start;
+}
+
 .solutionImageLink {
   min-width: 0;
   display: grid;
@@ -642,6 +658,58 @@
   line-height: 1.4;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.solutionPhoneLink {
+  position: sticky;
+  top: 132px;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: var(--color-muted);
+  text-decoration: none;
+  border-radius: 38px;
+}
+
+.solutionPhoneLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+.solutionPhoneMockup {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  overflow: hidden;
+  background: #111214;
+  border: 1px solid rgba(17, 18, 20, 0.7);
+  border-radius: 38px;
+  box-shadow: 0 24px 64px rgba(20, 28, 48, 0.2);
+}
+
+.solutionPhoneMockup::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 37px;
+}
+
+.solutionPhoneViewport {
+  display: block;
+  aspect-ratio: 393 / 852;
+  overflow: hidden;
+  background: #eaf1ff;
+  border-radius: 30px;
+}
+
+.solutionPhoneImage {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* Longer case stories keep the template's rhythm without fixed text rows. */
@@ -881,6 +949,17 @@
 
   .solutionFigurePortrait .solutionImageLink {
     width: min(100%, 393px);
+    justify-self: center;
+  }
+
+  .solutionMediaPair {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .solutionPhoneLink {
+    position: static;
+    width: min(70%, 260px);
     justify-self: center;
   }
 

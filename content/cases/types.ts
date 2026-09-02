@@ -113,6 +113,7 @@ export type CaseStudyData = {
       title: string;
       description: string;
       image: CaseImageAsset;
+      mobileImage?: CaseImageAsset;
     }[];
   }[];
   conclusion?: {

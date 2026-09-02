@@ -414,33 +414,68 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
                     <figure
                       className={`${styles.solutionFigure} ${
                         isPortrait ? styles.solutionFigurePortrait : ""
-                      }`}
+                      } ${item.mobileImage ? styles.solutionFigureShowcase : ""}`}
                     >
                       <figcaption className={styles.storyHeader}>
                         <h3 className={styles.storyTitle}>{item.title}</h3>
                         <p className={styles.storyText}>{item.description}</p>
                       </figcaption>
-                      <a
-                        className={styles.solutionImageLink}
-                        href={item.image.src}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${item.image.alt}. Открыть полный экран в новой вкладке`}
+                      <div
+                        className={
+                          item.mobileImage
+                            ? styles.solutionMediaPair
+                            : styles.solutionMediaSingle
+                        }
                       >
-                        <Image
-                          src={item.image.src}
-                          alt={item.image.alt}
-                          width={item.image.width ?? 1512}
-                          height={item.image.height ?? 944}
-                          className={styles.solutionImage}
-                          unoptimized
-                          style={{ maxWidth: item.image.width }}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
-                        />
-                        <span className={styles.solutionImageHint}>
-                          Открыть крупнее
-                        </span>
-                      </a>
+                        <a
+                          className={styles.solutionImageLink}
+                          href={item.image.src}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${item.image.alt}. Открыть полный экран в новой вкладке`}
+                        >
+                          <Image
+                            src={item.image.src}
+                            alt={item.image.alt}
+                            width={item.image.width ?? 1512}
+                            height={item.image.height ?? 944}
+                            className={styles.solutionImage}
+                            unoptimized
+                            style={{ maxWidth: item.image.width }}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
+                          />
+                          <span className={styles.solutionImageHint}>
+                            Открыть desktop крупнее
+                          </span>
+                        </a>
+
+                        {item.mobileImage ? (
+                          <a
+                            className={styles.solutionPhoneLink}
+                            href={item.mobileImage.src}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${item.mobileImage.alt}. Открыть полный экран в новой вкладке`}
+                          >
+                            <span className={styles.solutionPhoneMockup}>
+                              <span className={styles.solutionPhoneViewport}>
+                                <Image
+                                  src={item.mobileImage.src}
+                                  alt={item.mobileImage.alt}
+                                  width={item.mobileImage.width ?? 393}
+                                  height={item.mobileImage.height ?? 2855}
+                                  className={styles.solutionPhoneImage}
+                                  unoptimized
+                                  sizes="(max-width: 768px) 70vw, 224px"
+                                />
+                              </span>
+                            </span>
+                            <span className={styles.solutionImageHint}>
+                              Открыть mobile крупнее
+                            </span>
+                          </a>
+                        ) : null}
+                      </div>
                     </figure>
                   </FadeIn>
                 );

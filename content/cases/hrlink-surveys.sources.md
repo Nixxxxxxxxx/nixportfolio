@@ -24,6 +24,7 @@ Exact PNG exports, without cropping or recreated UI:
 | audience-tree.png | 317:87217 |
 | audience-saved.png | 317:86151 |
 | event-trigger.png | 317:77189 |
+| employee-desktop.png | 317:81380 |
 | employee-mobile.png | 317:82231 |
 | survey-results.png | 317:80690 |
 
