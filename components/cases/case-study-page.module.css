@@ -600,6 +600,21 @@
   align-items: start;
 }
 
+.solutionFigurePortrait {
+  grid-template-columns: minmax(0, 420px) minmax(280px, 393px);
+  justify-content: space-between;
+}
+
+.solutionFigurePortrait figcaption {
+  position: sticky;
+  top: 132px;
+}
+
+.solutionFigurePortrait .solutionImageLink {
+  width: 100%;
+  justify-self: end;
+}
+
 .solutionImageLink {
   min-width: 0;
   display: grid;
@@ -858,6 +873,15 @@
   .solutionFigure {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  .solutionFigurePortrait figcaption {
+    position: static;
+  }
+
+  .solutionFigurePortrait .solutionImageLink {
+    width: min(100%, 393px);
+    justify-self: center;
   }
 
   .canvas {

@@ -405,35 +405,46 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
               />
             </FadeIn>
             <div className={styles.solutionStack}>
-              {section.items.map((item) => (
-                <FadeIn key={item.title} animatePosition={false}>
-                  <figure className={styles.solutionFigure}>
-                    <figcaption className={styles.storyHeader}>
-                      <h3 className={styles.storyTitle}>{item.title}</h3>
-                      <p className={styles.storyText}>{item.description}</p>
-                    </figcaption>
-                    <a
-                      className={styles.solutionImageLink}
-                      href={item.image.src}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${item.image.alt}. Открыть полный экран в новой вкладке`}
+              {section.items.map((item) => {
+                const isPortrait =
+                  (item.image.height ?? 0) / (item.image.width ?? 1) > 1.5;
+
+                return (
+                  <FadeIn key={item.title} animatePosition={false}>
+                    <figure
+                      className={`${styles.solutionFigure} ${
+                        isPortrait ? styles.solutionFigurePortrait : ""
+                      }`}
                     >
-                      <Image
-                        src={item.image.src}
-                        alt={item.image.alt}
-                        width={item.image.width ?? 1512}
-                        height={item.image.height ?? 944}
-                        className={styles.solutionImage}
-                        unoptimized
-                        style={{ maxWidth: item.image.width }}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
-                      />
-                      <span className={styles.solutionImageHint}>Открыть крупнее</span>
-                    </a>
-                  </figure>
-                </FadeIn>
-              ))}
+                      <figcaption className={styles.storyHeader}>
+                        <h3 className={styles.storyTitle}>{item.title}</h3>
+                        <p className={styles.storyText}>{item.description}</p>
+                      </figcaption>
+                      <a
+                        className={styles.solutionImageLink}
+                        href={item.image.src}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${item.image.alt}. Открыть полный экран в новой вкладке`}
+                      >
+                        <Image
+                          src={item.image.src}
+                          alt={item.image.alt}
+                          width={item.image.width ?? 1512}
+                          height={item.image.height ?? 944}
+                          className={styles.solutionImage}
+                          unoptimized
+                          style={{ maxWidth: item.image.width }}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 65vw, 900px"
+                        />
+                        <span className={styles.solutionImageHint}>
+                          Открыть крупнее
+                        </span>
+                      </a>
+                    </figure>
+                  </FadeIn>
+                );
+              })}
             </div>
           </section>
         ))}
